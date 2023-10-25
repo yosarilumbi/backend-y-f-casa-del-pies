@@ -3,27 +3,26 @@ import { Form, Row, Col, Container, FloatingLabel, Card, Button } from 'react-bo
 import Header from '../components/Header';
 import '../App.css';
 
-function Productos() {
+function Usuario() {
 
-  // Crear un estado para cada campo del formulario 
-  const [nombre, setNombre] = useState('');
-  const [descripcion, setDescripcionProducto] = useState('');
-  const [precio, setPrecio] = useState('');
-  
+  // Crear un estado para cada campo del formulario
+  const [nombre_Usuario, setNombreUsuario] = useState('');
+  const [contrasena, setContraseña] = useState('');
+
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Crear un objeto con los datos del formulario
     const formData = {
-      nombre,
-      descripcion,
-      precio,
+      nombre_Usuario,
+      contrasena,
+      
     };
 
     try {
       // Realizar una solicitud HTTP al backend para enviar los datos
-      const response = await fetch('http://localhost:5000/crud/createProductos', {
+      const response = await fetch('http://localhost:5000/crud/createUsuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,12 +34,10 @@ function Productos() {
         // El registro se creó exitosamente
         alert('Registro exitoso');
         // Reiniciar los campos del formulario
-        setNombre('');
-        setDescripcionProducto('');
-        setPrecio('');
-      
+        setNombreUsuario('');
+        setContraseña('');
       } else {
-        alert('Error al registrar el producto');
+        alert('Error al registrar el usuario');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -55,42 +52,32 @@ function Productos() {
       <Container>
         <Card className="mt-3">
           <Card.Body>
-            <Card.Title>Registrar Productos</Card.Title>
+            <Card.Title>Registro de Usuario</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
               <Row className="g-3">
 
                 <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="nombre" label="Nombre">
+                  <FloatingLabel controlId="nombre_Usuario" label="Nombre Usuario">
                     <Form.Control
                       type="text"
-                      placeholder="Ingrese el nombre del producto"
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
+                      placeholder="Ingrese el nombre del usuario"
+                      value={nombre_Usuario}
+                      onChange={(e) => setNombreUsuario(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>
 
                 <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="descripcion" label="Descripcion">
+                  <FloatingLabel controlId="contrasena" label="Contraseña">
                     <Form.Control
                       type="text"
-                      placeholder="Ingrese la Descripcion del producto"
-                      value={descripcion}
-                      onChange={(e) => setDescripcionProducto(e.target.value)}
+                      placeholder="Ingrese su contraseña"
+                      value={contrasena}
+                      onChange={(e) => setContraseña(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>
 
-                <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="precio" label="Precio">
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Ingrese el precio del producto"
-                      value={cedula}
-                      onChange={(e) => setCedula(e.target.value)} 
-                    />
-                  </FloatingLabel>
-                </Col>
 
               </Row>
               <div className="center-button">
@@ -106,4 +93,4 @@ function Productos() {
     </div>
   );
 }
-export default Productos;
+export default Usuario;

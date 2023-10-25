@@ -1,21 +1,30 @@
- 
 const express = require('express');
 const router = express.Router();
 
 module.exports = (db) => {
-    router.get('/readCategorias', (req, res) => {
+  // Ruta para leer registros
+  router.get('/readcategorias', (req, res) => {
+    // Utiliza la instancia de la base de datos pasada como parámetro
+    // Realizar una consulta SQL para seleccionar todos los registros
+    const sql = 'SELECT * FROM Categorias';
 
-        const sql = 'SELECT * FROM Categorias ';
-
-        db.query(sql, (err, result) => {
-            if (err) {
-                console.error('Error al leer registros:', err);
-                res.status(500).json({ error: 'Error al leer registros' });
-            } else {
-                res.status(200).json(result);
-            }
-        });
+    // Ejecutar la consulta
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error al leer registros:', err);
+        res.status(500).json({ error: 'Error al leer registros'
+       });
+      } else {
+        // Devolver los registros en formato JSON como respuesta
+        res.status(200).json(result);
+      }
     });
+  });
+
+
+
+
+ 
 // Ruta para leer registros
 router.get('/readcategorias', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
@@ -113,6 +122,28 @@ router.delete('/deletecategorias/:id_Categoria', (req, res) => {
     }
   });
 });
+
+
+
+
+// Ruta para leer registros
+router.get('/readmarca', (req, res) => {
+  // Utiliza la instancia de la base de datos pasada como parámetro
+  // Realizar una consulta SQL para seleccionar todos los registros
+  const sql = 'SELECT * FROM Marcas';
+
+  // Ejecutar la consulta
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al leer registros:', err);
+      res.status(500).json({ error: 'Error al leer registros' });
+    } else {
+      // Devolver los registros en formato JSON como respuesta
+      res.status(200).json(result);
+    }
+  });
+});
+
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createMarcas', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
@@ -222,7 +253,7 @@ router.post('/createPagos', (req, res) => {
   }
 
   // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO pagos (ID_Pago, MetododePago, CodigoPago,CodigoVenta,MontoVenta,FechaPago,ID_cLIENTE) VALUES (?, ?,?,?,?, ?)`;
+  const sql = `INSERT INTO pagos (Id_Pago, MetododePago, CodigoPago,CodigoVenta,MontoVenta,FechaPago,id_Cliente) VALUES (?, ?,?,?,?, ?,?)`;
   const values = [id_Pago, metododePago, codigoPago,cod_Venta,monto,fecha_pago,id_Cliente ];
 
   // Ejecuta la consulta
@@ -292,6 +323,7 @@ router.delete('/deletePagos/:id_Pago', (req, res) => {
 });
 
 
+ 
  // Ruta para leer registros
  router.get('/readpromociones', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
@@ -309,6 +341,7 @@ router.delete('/deletePagos/:id_Pago', (req, res) => {
     }
   });
 });
+
 
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createPromocionesyDescuentos', (req, res) => {
@@ -336,8 +369,9 @@ router.post('/createPromocionesyDescuentos', (req, res) => {
   });
 });
 
-  // Ruta para actualizar un registro existente por ID
-router.put('/updatePromocionesyDescuentos/:id_Promociones', (req, res) => {
+
+ // Ruta para actualizar un registro existente por ID
+ router.put('/updatePromocionesyDescuentos/:id_Promociones', (req, res) => {
   // Obtén el ID del registro a actualizar desde los parámetros de la URL
   const id_Promociones = req.params.id_Promociones;
 
@@ -369,6 +403,8 @@ router.put('/updatePromocionesyDescuentos/:id_Promociones', (req, res) => {
     }
   });
 });
+
+
 
 // Ruta para eliminar un registro existente por ID
 router.delete('/deletePromocionesyDescuentos/:id_Promociones', (req, res) => {
@@ -630,10 +666,10 @@ router.get('/readclientes', (req, res) => {
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createClientes', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const { cedula, nombre, apellido, historialdecompras, direccionEnvio } = req.body;
+  const { cedula, nombre, apellido, historialdecompras, direccionEnvio,id_Usuario } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!cedula|| !nombre || !apellido || !historialdecompras|| !direccionEnvio) {
+  if (!cedula|| !nombre || !apellido || !historialdecompras|| !direccionEnvio|| !id_Usuario) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
@@ -659,21 +695,21 @@ router.put('/updateClientes/:id_Cliente', (req, res) => {
   const id_Cliente = req.params.id_Cliente;
 
   // Recibe los datos actualizados desde el cuerpo de la solicitud (req.body)
-  const { cedula, nombre, apellido, historialdecompras, direccionEnvio} = req.body;
+  const { cedula, nombre, apellido, historialdecompras, direccionEnvio,id_Usuario} = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!cedula || !nombre || !apellido || !historialdecompras || !direccionEnvio) {
+  if (!cedula || !nombre || !apellido || !historialdecompras || !direccionEnvio|| !id_Usuario) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para actualizar el registro por ID
   const sql = `
     UPDATE Clientes
-    SET cedula = ?, nombre = ?, apellido = ?, historialdecompras = ?, direccionEnvio = ?
+    SET cedula = ?, nombre = ?, apellido = ?, historialdecompras = ?, direccionEnvio = ?,id_Usuario =?,
     WHERE id_Cliente= ?
   `;
  
-  const values = [cedula, nombre, apellido, historialdecompras, direccionEnvio, id_Cliente];
+  const values = [cedula, nombre, apellido, historialdecompras, direccionEnvio.id_Usuario, id_Cliente];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -707,10 +743,6 @@ router.delete('/deleteClientes/:id_Cliente', (req, res) => {
   });
 });
 
-
-
-
-
 // Ruta para leer registros
 router.get('/readVenta', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
@@ -732,16 +764,16 @@ router.get('/readVenta', (req, res) => {
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createVentas', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const { cod_Venta, id_Cliente, id_Empleado, fecha, Estado, Presencial_enLinea } = req.body;
+  const { cod_Venta, id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!cod_Venta|| !id_Cliente|| !id_Empleado || !fecha || !Estado|| !Presencial_enLinea) {
+  if (!cod_Venta|| !id_Cliente|| !id_Vendedor || !fecha|| !cantidadProducto|| !total|| !metododePago || !Estado|| !Presencial_enLinea) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO Ventas (cod_Venta, id_Cliente, id_Empleado, fecha, Estado, Presencial_enLinea ) VALUES (?, ?, ?, ?, ?, ?)`;
-  const values = [cod_Venta, id_Cliente, id_Empleado, fecha, Estado, Presencial_enLinea ];
+  const sql = `INSERT INTO Ventas (cod_Venta, id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea ) VALUES (?, ?, ?, ?, ?, ?,?,?,?)`;
+  const values = [cod_Venta, id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea ];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -761,21 +793,21 @@ router.put('/updateVentas/:cod_Venta', (req, res) => {
   const cod_Venta = req.params.cod_Venta;
 
   // Recibe los datos actualizados desde el cuerpo de la solicitud (req.body)
-  const {id_Cliente, id_Empleado, fecha, Estado, Presencial_enLinea} = req.body;
+  const { id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea} = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!id_Cliente|| !id_Empleado || !fecha || !Estado || !Presencial_enLinea) {
+  if (!cod_Venta|| !id_Cliente|| !id_Vendedor || !fecha|| !cantidadProducto|| !total|| !metododePago || !Estado|| !Presencial_enLinea) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para actualizar el registro por ID
   const sql = `
     UPDATE Ventas
-    SET id_Cliente = ?, id_Empleado = ?, fecha = ?, Estado = ?, Presencial_enLinea = ?
+    SET id_Cliente = ?, id_Vendedor = ?, fecha = ?,cantidadProducto=?,total =?, metododePago=?, Estado = ?, Presencial_enLinea = ?
     WHERE cod_Venta= ?
   `;
  
-  const values = [id_Cliente, id_Empleado, fecha, Estado,  Presencial_enLinea, cod_Venta ];
+  const values = [ id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea,cod_Venta];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -811,23 +843,46 @@ router.delete('/deleteVentas/:cod_Venta', (req, res) => {
 
 
 
+
+
+
+
+// Ruta para leer registros
+router.get('/readProductos', (req, res) => {
+  // Utiliza la instancia de la base de datos pasada como parámetro
+  // Realizar una consulta SQL para seleccionar todos los registros
+  const sql = 'SELECT * FROM Productos';
+
+  // Ejecutar la consulta
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al leer registros:', err);
+      res.status(500).json({ error: 'Error al leer registros' });
+    } else {
+      // Devolver los registros en formato JSON como respuesta
+      res.status(200).json(result);
+    }
+  });
+});
+
+
 // Ruta para crear un nuevo registro
 router.post('/createProductos', (req, res) => {
-  const {id_Producto,id_Categoria, nombre,descripcion,precio,id_Marca} = req.body;
+  const {id_Categoria, nombre,descripcion,precio,id_Marca,id_Promociones} = req.body;
 
-  if (!id_Producto || !id_Categoria||! nombre ||!descripcion ||!precio ||!id_Marca) {
+  if (!id_Categoria||! nombre ||!descripcion ||!precio ||!id_Marca||!id_Promociones) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
-  const sql = `INSERT INTO Producto (id_Producto,id_Categoria, Nombre,Descripcion,Precio,id_Marca) VALUES (?,?,?,?,?,?)`;
-  const values = [id_Producto,id_Categoria, nombre,descripcion,precio,id_Marca];
+  const sql = `INSERT INTO Productos (id_Categoria, Nombre,Descripcion,Precio,id_Marca,id_Promociones) VALUES (?,?,?,?,?,?)`;
+  const values = [id_Categoria, nombre,descripcion,precio,id_Marca,id_Promociones];
 
   db.query(sql, values, (err, result) => {
     if (err) {
       console.error('Error al insertar registro:', err);
       res.status(500).json({ error: 'Error al insertar registro' });
     } else {
-      res.status(201).json({ id_producto });
+      res.status(200).json({ text: '' });
     }
   });
 });
@@ -835,19 +890,19 @@ router.post('/createProductos', (req, res) => {
 // Ruta para actualizar un registro existente por ID
 router.put('/updateProducto/:id_Producto', (req, res) => {
   const id_Producto = req.params.id_Producto;
-  const { id_Categoria, nombre, descripcion, precio, id_Marca } = req.body;
+  const { id_Categoria, nombre, descripcion, precio, id_Marca,id_Promociones } = req.body;
 
-  if (!id_Categoria || !nombre || !descripcion || !precio || !id_Marca) {
+  if (!id_Categoria || !nombre || !descripcion || !precio || !id_Marca|| !id_Promociones) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   const sql = `
     UPDATE Productos
-    SET id_Categoria=?, nombre=?, descripcion=?, precio=?, id_Marca=?
+    SET id_Categoria=?, nombre=?, descripcion=?, precio=?, id_Marca=?,id_Promociones =?
     WHERE id_Producto= ?
   `;
 
-  const values = [id_Categoria, nombre, descripcion, precio, id_Marca, id_Producto];
+  const values = [id_Categoria, nombre, descripcion, precio, id_Marca,id_Promociones, id_Producto];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -876,6 +931,27 @@ router.delete('/deleteProductos/:id_Producto', (req, res) => {
 });
 
 
+
+
+// Ruta para leer registros
+router.get('/readUsuario', (req, res) => {
+  // Utiliza la instancia de la base de datos pasada como parámetro
+  // Realizar una consulta SQL para seleccionar todos los registros
+  const sql = 'SELECT * FROM Usuario';
+
+  // Ejecutar la consulta
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al leer registros:', err);
+      res.status(500).json({ error: 'Error al leer registros' });
+    } else {
+      // Devolver los registros en formato JSON como respuesta
+      res.status(200).json(result);
+    }
+  });
+});
+
+
 // Ruta para crear un nuevo registro
 router.post('/createUsuario', (req, res) => {
   const {id_Usuario, nombre_Usuario, contrasena} = req.body;
@@ -884,7 +960,7 @@ router.post('/createUsuario', (req, res) => {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
-  const sql = `INSERT INTO Usuario (ID_Usuario, Nombre_Usuario, contraseña) VALUES (?,?, ?)`;
+  const sql = `INSERT INTO Usuario (id_Usuario, Nombre_Usuario, contraseña) VALUES (?,?, ?)`;
   const values = [id_Usuario, nombre_Usuario, contrasena];
 
   db.query(sql, values, (err, result) => {
@@ -910,10 +986,10 @@ router.put('/updateUsuario/:id_Usuario', (req, res) => {
   const sql = `
     UPDATE Usuario
     SET Nombre_Usuario= ?, Contraseña = ?
-    WHERE ID_Usuario = ?
+    WHERE id_Usuario = ?
   `;
 
-  const values = [ nombre_Usuario, contrasena,id_Usuario];
+  const values = [ nombre_Usuario, contrasena, id_Usuario];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -928,7 +1004,7 @@ router.put('/updateUsuario/:id_Usuario', (req, res) => {
 // Ruta para eliminar un registro existente por ID
 router.delete('/deleteUsuario/:id_Usuario', (req, res) => {
   const id_Usuario = req.params.id_Usuario;
-  const sql = 'DELETE FROM Usuario WHERE ID Usuarios   = ?';
+  const sql = 'DELETE FROM Usuario WHERE id Usuarios   = ?';
 
   db.query(sql, [id_Categoria], (err, result) => {
     if (err) {
@@ -958,5 +1034,192 @@ db.query(sql, (err, result) => {
 });
 });
 
-return router;
+
+
+ // Ruta para obtener datos de ambas tablas usuario y vendedor
+ router.get('/readUsuarioyVendedor', (req, res) => {
+
+const router = express.Router();
+
+router.get('/readUsuarioyVendedor', (req, res) => {
+  const sql = 'SELECT U.*, V.* FROM Vendedor INNER JOIN Usuario U ON V.id_Usuario = U.id_Usuario';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error al obtener los datos de Vendedor y Usuario:', err);
+      res.status(500).json({ error: 'Error al obtener los datos de Vendedor y Usuario' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+});
+
+router.post('/createVendedor', (req, res) => {
+  const {
+    id_Vendedor,
+    direccion,
+    telefono,
+    nombre,
+    apellido,
+  } = req.body;
+
+  if (!id_Vendedor || !direccion || !telefono || !nombre || !apellido) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  const sqlUsuario = 'INSERT INTO Usuario (id_Usuario) VALUES (?)';
+  const valuesUsuario = [id_Vendedor];
+
+  db.query(sqlUsuario, valuesUsuario, (err, result) => {
+    if (err) {
+      console.error('Error al insertar registro en Usuario:', err);
+      res.status(500).json({ error: 'Error al insertar registro en Usuario' });
+    } else {
+      const id_Usuario = result.insertId;
+
+      const sqlVendedor = 'INSERT INTO Vendedor (id_Vendedor, direccion, telefono, nombre, apellido) VALUES (?, ?, ?, ?, ?)';
+      const valuesVendedor = [id_Vendedor, direccion, telefono, nombre, apellido];
+
+      db.query(sqlVendedor, valuesVendedor, (err, result) => {
+        if (err) {
+          console.error('Error al insertar registro en Vendedor:', err);
+          res.status(500).json({ error: 'Error al insertar registro en Vendedor' });
+        } else {
+          res.status(201).json({ id_Usuario: id_Usuario });
+        }
+      });
+    }
+  });
+});
+
+router.put('/updateVendedor', (req, res) => {
+  const {
+    id_Vendedor,
+    direccion,
+    telefono,
+    nombre,
+    apellido,
+  } = req.body;
+
+  if (!id_Vendedor || !direccion || !telefono || !nombre || !apellido) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  const sqlUsuario = 'UPDATE Usuario SET id_Usuario = ? WHERE ID_Usuario = ?';
+  const valuesUsuario = [id_Vendedor, id_Vendedor];
+
+  db.query(sqlUsuario, valuesUsuario, (err, resultUsuario) => {
+    if (err) {
+      console.error('Error al actualizar el registro en Usuario:', err);
+      return res.status(500).json({ error: 'Error al actualizar el registro en Usuario' });
+    }
+
+    const sqlVendedor = 'UPDATE Vendedor SET id_Vendedor = ?, direccion = ?, telefono = ?, nombre = ?, apellido = ? WHERE id_Vendedor = ?';
+    const valuesVendedor = [id_Vendedor, direccion, telefono, nombre, apellido, id_Vendedor];
+
+    db.query(sqlVendedor, valuesVendedor, (err, resultVendedor) => {
+      if (err) {
+        console.error('Error al actualizar el registro en Vendedor:', err);
+        return res.status(500).json({ error: 'Error al actualizar el registro en Vendedor' });
+      }
+
+      res.status(200).json({ message: 'Registro actualizado con éxito' });
+    });
+  });
+});
+
+router.delete('/deleteVendedorUsuario/:id_Usuario', (req, res) => {
+  const id_Usuario = req.params.id_Usuario;
+  
+  db.beginTransaction((err) => {
+    if (err) {
+      console.error('Error al iniciar la transacción:', err);
+      return res.status(500).json({ error: 'Error al eliminar el vendedor' });
+    }
+
+    const deleteVendedorSQL = 'DELETE FROM Vendedor WHERE id_Usuario = ?';
+    db.query(deleteVendedorSQL, [id_Usuario], (err, result) => {
+      if (err) {
+        db.rollback(() => {
+          console.error('Error al eliminar el Vendedor:', err);
+          return res.status(500).json({ error: 'Error al eliminar el vendedor' });
+        });
+      }
+
+      const deleteUsuarioSQL = 'DELETE FROM Usuario WHERE id_Usuario = ?';
+      db.query(deleteUsuarioSQL, [id_Usuario], (err, result) => {
+        if (err) {
+          db.rollback(() => {
+            console.error('Error al eliminar el usuario:', err);
+            return res.status(500).json({ error: 'Error al eliminar el usuario' });
+          });
+        }
+
+        db.commit((err) => {
+          if (err) {
+            db.rollback(() => {
+              console.error('Error al confirmar la transacción:', err);
+              return res.status(500).json({ error: 'Error al eliminar el Vendedor' });
+            });
+          }
+
+          res.status(200).json({ message: 'Vendedor eliminado con éxito' });
+          });
+        });
+      });
+    });
+
+  });
+
+  router.post('/createVendedor', (req, res) => {
+    const {
+      direccion,
+      telefono,
+      nombre,
+      apellido,
+      nombre_Usuario,  // Agregar el campo nombre_Usuario
+      contrasena      // Agregar el campo contrasena
+    } = req.body;
+  
+    if (!direccion || !telefono || !nombre || !apellido || !nombre_Usuario || !contrasena) {
+      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+    }
+  
+    const sqlUsuario = 'INSERT INTO Usuario (nombre_Usuario, contrasena) VALUES (?, ?)';
+    const valuesUsuario = [nombre_Usuario, contrasena];
+  
+    db.query(sqlUsuario, valuesUsuario, (err, result) => {
+      if (err) {
+        console.error('Error al insertar registro en Usuario:', err);
+        res.status(500).json({ error: 'Error al insertar registro en Usuario' });
+      } else {
+        const id_Usuario = result.insertId;
+  
+        const sqlVendedor = 'INSERT INTO Vendedor (direccion, telefono, nombre, apellido, id_Usuario) VALUES (?, ?, ?, ?, ?)';
+        const valuesVendedor = [direccion, telefono, nombre, apellido, id_Usuario]; // Usar el ID_Usuario obtenido anteriormente
+  
+        db.query(sqlVendedor, valuesVendedor, (err, result) => {
+          if (err) {
+            console.error('Error al insertar registro en Vendedor:', err);
+            res.status(500).json({ error: 'Error al insertar registro en Vendedor' });
+          } else {
+            res.status(201).json({ id_Usuario: id_Usuario });
+          }
+        });
+      }
+    });
+  });
+  
+
+
+
+
+
+  return router;
 };
+
+
+
+
+

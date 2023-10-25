@@ -10,6 +10,8 @@ function Vendedor() {
   const [telefono, setTelefono] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
+  const [nombre_Usuario, setNombreUsuario] = useState('');
+  const [contrasena, setContrasena] = useState('');
   
 
   // Función para manejar el envío del formulario
@@ -18,11 +20,12 @@ function Vendedor() {
 
     // Crear un objeto con los datos del formulario
     const formData = {
-        direccion, 
-        telefono, 
-        nombre,
-        apellido
-
+      direccion,
+      telefono,
+      nombre,
+      apellido,
+      nombre_Usuario,  // Agregar el campo nombre_Usuario
+      contrasena      // Agregar el campo contrasena
     };
 
     try {
@@ -43,6 +46,8 @@ function Vendedor() {
         setTelefono('');
         setNombre('');
         setApellido('');
+        setNombreUsuario('');
+        setContrasena('');
       } else {
         alert('Error al registrar el vendedor');
       }
@@ -77,7 +82,7 @@ function Vendedor() {
                 <Col sm="6" md="6" lg="6">
                   <FloatingLabel controlId="telefono" label="Telefono">
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder="Ingrese su numero de telefono"
                       value={telefono}
                       onChange={(e) => setTelefono(e.target.value)}
@@ -103,6 +108,28 @@ function Vendedor() {
                       placeholder="Ingrese su apellido"
                       value={apellido}
                       onChange={(e) => setApellido(e.target.value)} 
+                    />
+                  </FloatingLabel>
+                </Col>
+
+                <Col sm="6" md="6" lg="6">
+                  <FloatingLabel controlId="nombre_Usuario" label="Nombre Usuario">
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingrese su nombre usuario"
+                      value={nombre_Usuario}
+                      onChange={(e) => setNombreUsuario(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+
+                <Col sm="6" md="6" lg="6">
+                  <FloatingLabel controlId="contrasena" label="Contraseña">
+                    <Form.Control
+                      type="password"
+                      placeholder="Ingrese su contraseña"
+                      value={contrasena}
+                      onChange={(e) => setContrasena(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>

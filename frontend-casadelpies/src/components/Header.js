@@ -24,14 +24,6 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
 
-              <Nav.Link>
-                <Link to="/" className="link-unstyled">Inicio</Link>
-              </Nav.Link>
-
-              <Nav.Link>
-                <Link to="/about" className="link-unstyled">Informacion</Link>
-              </Nav.Link>
-
 
               <NavDropdown title="Usuario" id="usuario">
                 <NavDropdown.Item>
@@ -51,7 +43,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-vendedor" className="link-unstyled">Listar Vendedor</Link>
+                  <Link to="/ListaVendedor" className="link-unstyled">Listar Vendedor</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -72,7 +64,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-venta" className="link-unstyled">Listar Ventas</Link>
+                  <Link to="/ListaVenta" className="link-unstyled">Listar Ventas</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -82,7 +74,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-pagos" className="link-unstyled">Listar Pagos</Link>
+                  <Link to="/ListaPago" className="link-unstyled">Listar Pagos</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -92,7 +84,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-producto" className="link-unstyled">Listar Producto</Link>
+                  <Link to="/ListaProducto" className="link-unstyled">Listar Producto</Link>
                 </NavDropdown.Item>
                 </NavDropdown>
 
@@ -102,7 +94,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-marcas" className="link-unstyled">Listar Marcas</Link>
+                  <Link to="/ListaMarcas" className="link-unstyled">Listar Marcas</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -112,7 +104,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-categoria" className="link-unstyled">Listar Categorias</Link>
+                  <Link to="/ListaCategoria" className="link-unstyled">Listar Categorias</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -175,7 +167,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-vendedor" className="link-unstyled">Listar Vendedor</Link>
+                  <Link to="/ListaVendedor" className="link-unstyled">Listar Vendedor</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -188,13 +180,13 @@ function Header() {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title="Ventas" id="ventas">
+            <NavDropdown title="Ventas" id="venta">
                 <NavDropdown.Item>
                   <Link to="/ventas" className="link-unstyled">Registrar Ventas</Link>
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-venta" className="link-unstyled">Listar Ventas</Link>
+                  <Link to="/ListaVenta" className="link-unstyled">Listar Ventas</Link>
                 </NavDropdown.Item>
               </NavDropdown>
   
@@ -204,7 +196,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-pagos" className="link-unstyled">Listar Pagos</Link>
+                  <Link to="/ListaPago" className="link-unstyled">Listar Pagos</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -214,7 +206,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-producto" className="link-unstyled">Listar Producto</Link>
+                  <Link to="/listaProducto" className="link-unstyled">Listar Producto</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -224,7 +216,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-marcas" className="link-unstyled">Listar Marcas</Link>
+                  <Link to="/ListaMarcas" className="link-unstyled">Listar Marcas</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -234,7 +226,7 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-categoria" className="link-unstyled">Listar Categorias</Link>
+                  <Link to="/ListaCategoria" className="link-unstyled">Listar Categorias</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 

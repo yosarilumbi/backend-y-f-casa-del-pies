@@ -3,25 +3,23 @@ import { Form, Row, Col, Container, FloatingLabel, Card, Button } from 'react-bo
 import Header from '../components/Header';
 import '../App.css';
 
-function Pagos() {
+function Marcas() {
 
   // Crear un estado para cada campo del formulario
-  const [metododePago, setMetdoDePago] = useState('');
-  const [codigoPago, setCodigoDePago] = useState('');
-
+  const [nombre_Marca, setNombreMarca] = useState('');
+  
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Crear un objeto con los datos del formulario
     const formData = {
-      metododePago,
-      codigoPago,
+        nombre_Marca
     };
 
     try {
       // Realizar una solicitud HTTP al backend para enviar los datos
-      const response = await fetch('http://localhost:5000/crud/createPagos', {
+      const response = await fetch('http://localhost:5000/crud/createmarca', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,10 +31,10 @@ function Pagos() {
         // El registro se creó exitosamente
         alert('Registro exitoso');
         // Reiniciar los campos del formulario
-        setMetdoDePago('');
-        setCodigoDePago('');
+        setNombreMarca('');
+        
       } else {
-        alert('Error al registrar pagos');
+        alert('Error al registrar marca');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -51,33 +49,21 @@ function Pagos() {
       <Container>
         <Card className="mt-3">
           <Card.Body>
-            <Card.Title>Registrar Pagos</Card.Title>
+            <Card.Title>Registrar Marcas</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
               <Row className="g-3">
 
                 <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="metododePago" label="Nombre">
+                  <FloatingLabel controlId="nombre_Marca" label="Nombre Marca">
                     <Form.Control
                       type="text"
-                      placeholder="Ingrese el metodo de pago"
-                      value={metododePago }
-                      onChange={(e) => setMetdoDePago(e.target.value)}
+                      placeholder="Ingrese marcas"
+                      value={nombre_Marca}
+                      onChange={(e) => setNombreMarca(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>
 
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="apellido" label="Apellido">
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese el apellido"
-                      value={apellido}
-                      onChange={(e) => setApellido(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-
-            
 
               </Row>
               <div className="center-button">
@@ -93,4 +79,4 @@ function Pagos() {
     </div>
   );
 }
-export default Pagos;
+export default Marcas;

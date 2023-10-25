@@ -7,7 +7,7 @@ function Descuento() {
 
   // Crear un estado para cada campo del formulario
   const [codigoDescuentos, setCodigoDescuentos] = useState('');
-  const [condiciones, setCodiciones ] = useState('');
+  const [condiciones, setCondiciones ] = useState('');
   const [fecha_Inicio, setFecha_Inicio] = useState('');
   const [fecha_Fin, setFecha_Fin] = useState('');
 
@@ -20,7 +20,7 @@ function Descuento() {
       codigoDescuentos,
       condiciones,
       fecha_Inicio,
-      fecha_Fin
+      fecha_Fin,
     };
 
     try {
@@ -38,7 +38,7 @@ function Descuento() {
         alert('Registro exitoso');
         // Reiniciar los campos del formulario
         setCodigoDescuentos('');
-        setCodiciones('');
+        setCondiciones('');
         setFecha_Inicio('');
         setFecha_Fin('');
       } else {
@@ -57,7 +57,7 @@ function Descuento() {
       <Container>
         <Card className="mt-3">
           <Card.Body>
-            <Card.Title>Registro de Descuentos</Card.Title>
+            <Card.Title>Registro de Descuento</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
               <Row className="g-3">
 
@@ -73,12 +73,12 @@ function Descuento() {
                 </Col>
 
                 <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="condicones" label="Condiciones">
+                  <FloatingLabel controlId="condiciones" label="Condiciones">
                     <Form.Control
                       type="text"
                       placeholder="Ingrese las condiciones"
                       value={condiciones}
-                      onChange={(e) => setCodiciones(e.target.value)}
+                      onChange={(e) => setCondiciones(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>
