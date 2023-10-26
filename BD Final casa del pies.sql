@@ -42,7 +42,7 @@ CREATE TABLE Vendedor (
   telefono Varchar(8),
   nombre Varchar(30),
   apellido Varchar(30),
-  id_Usuario Int
+  id_Usuario Int UNIQUE
 );
 
 CREATE TABLE Clientes (

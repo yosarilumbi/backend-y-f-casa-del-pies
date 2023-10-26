@@ -445,32 +445,6 @@ router.delete('/deletePromocionesyDescuentos/:id_Promociones', (req, res) => {
   });
 });
 
-// Ruta para crear un nuevo registro con ID específico
-router.post('/createVendedor', (req, res) => {
-  // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const { id_Vendedor, direccion, telefono, nombre, apellido, id_Usuario } = req.body;
-
-  // Verifica si se proporcionaron los datos necesarios
-  if (!id_Vendedor || !direccion || !telefono || !nombre || !apellido || !id_Usuario) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-  }
-
-  // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO Vendedor (ID_Vendedor, Direccion, Telefono, Nombre, Apellido) VALUES (?, ?, ?, ?,?, ?)`;
-  const values = [id_Vendedor, direccion, telefono, nombre, apellido, id_Usuario];
-
-  // Ejecuta la consulta
-  db.query(sql, values, (err, result) => {
-    if (err) {
-      console.error('Error al insertar registro:', err);
-      res.status(500).json({ error: 'Error al insertar registro' });
-    } else {
-      // Devuelve el ID del nuevo registro como respuesta
-      res.status(201).json({ id_Vendedor });
-    }
-  });
-});
-
   // Ruta para actualizar un registro existente por ID
 router.put('/updateVendedor/:id_Vendedor', (req, res) => {
   // Obtén el ID del registro a actualizar desde los parámetros de la URL
@@ -1053,44 +1027,6 @@ router.get('/readUsuarioyVendedor', (req, res) => {
     }
   });
 });
-});
-
-router.post('/createVendedor', (req, res) => {
-  const {
-    id_Vendedor,
-    direccion,
-    telefono,
-    nombre,
-    apellido,
-  } = req.body;
-
-  if (!id_Vendedor || !direccion || !telefono || !nombre || !apellido) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-  }
-
-  const sqlUsuario = 'INSERT INTO Usuario (id_Usuario) VALUES (?)';
-  const valuesUsuario = [id_Vendedor];
-
-  db.query(sqlUsuario, valuesUsuario, (err, result) => {
-    if (err) {
-      console.error('Error al insertar registro en Usuario:', err);
-      res.status(500).json({ error: 'Error al insertar registro en Usuario' });
-    } else {
-      const id_Usuario = result.insertId;
-
-      const sqlVendedor = 'INSERT INTO Vendedor (id_Vendedor, direccion, telefono, nombre, apellido) VALUES (?, ?, ?, ?, ?)';
-      const valuesVendedor = [id_Vendedor, direccion, telefono, nombre, apellido];
-
-      db.query(sqlVendedor, valuesVendedor, (err, result) => {
-        if (err) {
-          console.error('Error al insertar registro en Vendedor:', err);
-          res.status(500).json({ error: 'Error al insertar registro en Vendedor' });
-        } else {
-          res.status(201).json({ id_Usuario: id_Usuario });
-        }
-      });
-    }
-  });
 });
 
 router.put('/updateVendedor', (req, res) => {
