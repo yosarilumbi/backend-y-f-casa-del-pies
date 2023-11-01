@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import '../App.css';
 
-function Home() {
+function Home({rol}) {
   return(
     <div>
-      <Header />
-      <Link to="/about">Ir a Informacion</Link>
+      <Header rol={ rol} />
+      
     </div>
   );
 }

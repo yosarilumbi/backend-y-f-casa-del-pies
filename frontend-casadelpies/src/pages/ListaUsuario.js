@@ -1,32 +1,62 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
+import { Table, Button, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaTrashCan, FaPencil } from 'react-icons/fa6';
+
+
 
 function ListaUsuario() {
-  const [usuario, setUsuarios] = useState([]);
+  const [usuario, setUsuario] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedUsuarios, setSelectedUsuarios] = useState({});
+  const [selectedUsuario, setSelectedUsuario] = useState({});
   const [formData, setFormData] = useState({
     nombre_Usuario: '',
     contrasena: '',
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+
+  const filteredUsuario = usuario.filter((usuario) => { 
+    
+    if (usuario && usuario.nombre_Usuario && usuario.contrasena) {
+      // Convierte los valores de los campos a minúsculas para realizar una búsqueda insensible a mayúsculas y minúsculas
+      const nombre_Usuario = usuario.nombre_Usuario.toString().toLowerCase();
+      const contrasena = usuario.contrasena.toString().toLowerCase();
+     
+      // Verifica si la cadena de búsqueda se encuentra en algún campo
+      return (
+        nombre_Usuario.includes(searchQuery) ||
+        contrasena.includes(searchQuery) 
+        
+      );
+    }
+    return false; // Si algún valor está indefinido, no incluirlo en los resultados
+  });
+  
+
   // Función para abrir el modal y pasar los datos de la promoción seleccionada
   const openModal = (usuario) => {
-    setSelectedUsuarios(usuario);;
+    setSelectedUsuario(usuario);
+
+    
 
     setFormData({
-     nombre_Usuario: usuario.nombre_Usuario,
-      contrasena: usuario.contrasena,
+        nombre_Usuario:usuario.nombre_Usuario,
+        contrasena:usuario.contrasena,
     });
     setShowModal(true);
   };
 
 
-  const loadUsuarios= () => {
-    fetch('http://localhost:5000/crud/readUsuario')
+  const loadUsuario = () => {
+    fetch('http://localhost:5000/crud/readusuario')
       .then((response) => response.json())
-      .then((data) => setUsuarios(data))
+      .then((data) => setUsuario(data))
       .catch((error) => console.error('Error al obtener los usuarios:', error));
   };
 
@@ -34,7 +64,7 @@ function ListaUsuario() {
   // Función para enviar el formulario de actualización
   const handleUpdate = () => {
     // Realiza la solicitud PUT al servidor para actualizar el registro
-    fetch(`http://localhost:5000/crud/updateUsuario/${selectedUsuarios.id_Usuario}`, {
+    fetch(`http://localhost:5000/crud/updateUsuario/${selectedUsuario.id_Usuario}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -43,38 +73,38 @@ function ListaUsuario() {
     })
       .then((response) => {
         if (response.ok) {
-          // La actualización fue exitosa, puedes cerrar el modal y refrescar la lista de promociones
+          // La actualización fue exitosa, puedes cerrar el modal y refrescar la lista de usuario
           setShowModal(false);
-          loadUsuarios(); // Cargar la lista de docentes actualizada
+          loadUsuario(); // Cargar la lista deusuario actualizada
         }
       })
       .catch((error) => console.error('Error al actualizar el registro:', error));
   };
 
-  // Función para eliminar una promoción
-  const handleDelete = (id_Promociones) => {
-    const confirmation = window.confirm('¿Seguro que deseas eliminar esta promoción?');
+  // Función para eliminar un usuario
+  const handleDelete = (id_Usuario) => {
+    const confirmation = window.confirm('¿Seguro que deseas eliminar este usuario?');
     if (confirmation) {
       // Realiza la solicitud DELETE al servidor para eliminar la promoción
-      fetch(`http://localhost:5000/crud/deleteUsuario/${id_Promociones}`, {
+      fetch(`http://localhost:5000/crud/deleteUsuario/${id_Usuario}`, {
         method: 'DELETE',
       })
         .then((response) => {
           if (response.ok) {
-            // La eliminación fue exitosa, refresca la lista de promociones
-            loadDescuentos();
+            // La eliminación fue exitosa, refresca la lista de usuario
+            loadUsuario();
           }
         })
-        .catch((error) => console.error('Error al eliminar el descuento:', error));
+        .catch((error) => console.error('Error al eliminar el usuario:', error));
     }
   };
 
   // Realiza una solicitud GET al servidor para obtener las promociones
   useEffect(() => {
-    fetch('http://localhost:5000/crud/readUsuario')
+    fetch('http://localhost:5000/crud/readusuario')
       .then((response) => response.json())
-      .then((data) => setDescuentos(data))
-      .catch((error) => console.error('Error al obtener las promociones:', error));
+      .then((data) => setUsuario(data))
+      .catch((error) => console.error('Error al obtener los usuarios:', error));
   }, []);
 
   return (
@@ -84,6 +114,21 @@ function ListaUsuario() {
       <Card className="m-3">
         <Card.Body>
           <Card.Title className="mb-3">Listado de Usuarios</Card.Title>
+
+          
+          <Row className="mb-3">
+            <Col sm="6" md="6" lg="4">
+              <FloatingLabel controlId="search" label="Buscar">
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
+
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -92,15 +137,16 @@ function ListaUsuario() {
                 <th>Contraseña</th>
               </tr>
             </thead>
-            <tbody>
-              {descuentos.map((usuario) => (
+            <tbody>   
+              {filteredUsuario.map((usuario) => (
                 <tr key={usuario.id_Usuario}>
                   <td>{usuario.id_Usuario}</td>
                   <td>{usuario.nombre_Usuario}</td>
                   <td>{usuario.contrasena}</td>
+
                   <td>
-                    <Button variant="primary" onClick={() => openModal(usuario)}>Actualizar</Button>
-                    <Button variant="danger" onClick={() => handleDelete(usuario.id_Usuario)}>Eliminar</Button>
+                    <Button variant="primary" onClick={() => openModal(usuario)}><FaPencil/></Button>
+                    <Button variant="danger" onClick={() => handleDelete(usuario.id_Usuario)}><FaTrashCan/></Button>
                   </td>
                 </tr>
               ))}
@@ -116,58 +162,33 @@ function ListaUsuario() {
         <Modal.Body>
           <Card className="mt-3">
             <Card.Body>
-              <Card.Title>Usuario</Card.Title>
+              <Card.Title>Usuarios</Card.Title>
               <Form className="mt-3">
                 <Row className="g-3">
 
                   <Col sm="6" md="6" lg="6">
-                    <FloatingLabel controlId="nombre_Usuario" label="Nombre de Usuario">
+                    <FloatingLabel controlId="nombre_Usuario" label="nombre usuario">
                       <Form.Control
                         type="text"
-                        placeholder="Ingrese su nombre de usuario"
+                        placeholder="Ingrese su usuario"
                         name="nombre_Usuario"
                         value={formData.nombre_Usuario}
-                        onChange={handleFormChange}
                       />
                     </FloatingLabel>
                   </Col>
 
                   <Col sm="6" md="6" lg="6">
-                    <FloatingLabel controlId="condiciones" label="Condiciones">
+                    <FloatingLabel controlId="contrasena" label="Contrasena">
                       <Form.Control
-                        type="text"
-                        placeholder="Ingrese las condiciones"
-                        name="condiciones"
-                        value={formData.condiciones}
-                        onChange={handleFormChange}
+                        type="password"
+                        placeholder="Ingrese su contraseña"
+                        name="contrasena"
+                        value={formData.contrasena}
                       />
                     </FloatingLabel>
                   </Col>
 
-                  <Col sm="12" md="6" lg="6">
-                    <FloatingLabel controlId="fecha_Inicio" label="Fecha Inicio">
-                      <Form.Control 
-                        type="date" 
-                        placeholder="Seleccione la fecha inicio"
-                        name="fecha_Inicio"
-                        value={formData.fecha_Inicio}
-                        onChange={handleFormChange} 
-                      />
-                    </FloatingLabel>
-                  </Col>
-
-                  <Col sm="12" md="6" lg="6">
-                    <FloatingLabel controlId="fecha_Fin" label="Fecha Fin">
-                      <Form.Control 
-                        type="date" 
-                        placeholder="Seleccione la fecha fin"
-                        name="fecha_Fin"
-                        value={formData.fecha_Fin}
-                        onChange={handleFormChange} 
-                      />
-                    </FloatingLabel>
-                  </Col>
-
+                
                 </Row>
               </Form>
             </Card.Body>
@@ -187,4 +208,4 @@ function ListaUsuario() {
   );
 }
 
-export default ListaDescuento;
+export default ListaUsuario;

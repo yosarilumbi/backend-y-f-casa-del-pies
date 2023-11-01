@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Card, Row, Col, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 function ListaMarcas() {
   const [marcas, setMarcas] = useState([]); // Change variable name to 'marcas'
@@ -49,7 +50,7 @@ function ListaMarcas() {
   const handleDelete = (id_Marca) => {
     const confirmation = window.confirm('¿Seguro que deseas eliminar esta marca?');
     if (confirmation) {
-      fetch(`http://localhost:5000/crud/deleteMarca/${id_Marca}`, {
+      fetch(`http://localhost:5000/crud/deleteMarcas/${id_Marca}`, {
         method: 'DELETE',
       })
         .then((response) => {
@@ -85,12 +86,8 @@ function ListaMarcas() {
                   <td>{marca.id_Marca}</td>
                   <td>{marca.nombre_Marca}</td>
                   <td>
-                    <Button variant="primary" onClick={() => openModal(marca)}>
-                      Actualizar
-                    </Button>
-                    <Button variant="danger" onClick={() => handleDelete(marca.id_Marca)}>
-                      Eliminar
-                    </Button>
+                  <Button variant="primary" onClick={() => openModal(marca)}><FaPencil/></Button>
+                 <Button variant="danger" onClick={() => handleDelete(marca.id_Marca)}><FaTrashCan/></Button>
                   </td>
                 </tr>
               ))}

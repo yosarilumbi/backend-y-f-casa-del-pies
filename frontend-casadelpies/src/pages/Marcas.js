@@ -7,10 +7,20 @@ function Marcas() {
 
   // Crear un estado para cada campo del formulario
   const [nombre_Marca, setNombreMarca] = useState('');
+  const [error, setError] = useState(''); // Agregar estado para manejar errores
   
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+    
+    // Validar que el campo de nombre_Marca no contenga números
+    if (/^\d+$/.test(nombre_Marca)) {
+      setError('El nombre de la marca no debe contener números');
+      return;
+    }
+
 
     // Crear un objeto con los datos del formulario
     const formData = {
@@ -19,7 +29,7 @@ function Marcas() {
 
     try {
       // Realizar una solicitud HTTP al backend para enviar los datos
-      const response = await fetch('http://localhost:5000/crud/createmarca', {
+      const response = await fetch('http://localhost:5000/crud/createMarcas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

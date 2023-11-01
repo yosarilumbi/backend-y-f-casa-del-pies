@@ -40,7 +40,7 @@ function ListaVendedor() {
   const loadVendedor = () => {
     fetch('http://localhost:5000/crud/readUsuarioyVendedor')
       .then((response) => response.json())
-      .then((data) => setDocentes(data))
+      .then((data) => setVendedor(data))
       .catch((error) => console.error('Error al obtener los usuariosyvendedor:', error));
   };
 
@@ -102,15 +102,16 @@ function ListaVendedor() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Direccion</th>
-                <th>Telefonos</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+              
             
               </tr>
             </thead>
             <tbody>
-              {docentes.map((vendedor) => (
+              {vendedor.map((vendedor) => (
                 <tr key={vendedor.ID_Vendedor}>
                   <td>{vendedor.ID_Vendedor}</td>
                   <td>{vendedor.direccion}</td>

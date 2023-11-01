@@ -1,39 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button,  Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
+import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 function ListaCliente() {
-  const [cliente, setCliente] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedcliente, setSelectedCliente] = useState({});
+  const [selectedCliente, setSelectedCliente] = useState({});
   const [formData, setFormData] = useState({
-    cedula:'',
-    nombre:'',
-    apellido:'',
-    historialdecompras:'',
-    direccionEnvio:'', 
+    cedula : '',
+    nombre: '', 
+    apellido: '',
+    historialdecompras: '',
+    direccionEnvio: '',
+  
+
   });
 
-  // Función para abrir el modal y pasar los datos del cliente seleccionado
-  const openModal = (cliente) => {
-    setSelectedCliente(cliente);
+  // Función para abrir el modal y pasar los datos del vendedor seleccionado
+  const openModal = (clientes) => {
+    setSelectedCliente(clientes);
+
     setFormData({
-      cedula: cliente.cedula,
-      nombre: cliente.nombre,
-      apellido: cliente.apellido,
-      historialdecompras: cliente.historialdecompras,
-      direccionEnvio: cliente.direccionEnvio
+        cedula:clientes.cedula,
+        nombre:clientes.nombre,
+        apellido:clientes.apellido,
+        historialdecompras:clientes.historialdecompras,
+        direccionEnvio:clientes.direccionEnvio,
+       
     });
     setShowModal(true);
   };
 
-  function formatDateForInput(dateTimeString) {
-    const date = new Date(dateTimeString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Agregar ceros iniciales
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
 
   // Función para manejar cambios en el formulario
   const handleFormChange = (e) => {
@@ -45,17 +43,17 @@ function ListaCliente() {
   };
 
   const loadCliente = () => {
-    fetch('http://localhost:5000/crud/readclientes')
+    fetch('http://localhost:5000/crud/readUsuarioyClientes')
       .then((response) => response.json())
-      .then((data) => setCliente(data))
-      .catch((error) => console.error('Error al obtener los clientes:', error));
+      .then((data) => setClientes(data))
+      .catch((error) => console.error('Error al obtener los usuarios y clientes:', error));
   };
 
 
   // Función para enviar el formulario de actualización
   const handleUpdate = () => {
     // Realiza la solicitud PUT al servidor para actualizar el registro
-    fetch(`http://localhost:5000/crud/updateClientes/${selectedcliente.id_Cliente}`, {
+    fetch(`http://localhost:5000/crud/updateClientesr/${selectedCliente.id_Cliente}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -66,18 +64,18 @@ function ListaCliente() {
         if (response.ok) {
           // La actualización fue exitosa, puedes cerrar el modal y refrescar la lista de cliente
           setShowModal(false);
-          loadCliente(); // Cargar la lista de clientes actualizada
+          loadCliente(); // Cargar la lista de cliente actualizada
         }
       })
       .catch((error) => console.error('Error al actualizar el registro:', error));
   };
 
-  // Función para eliminar un Cliente
-  const handleDelete = (id_Cliente) => {
-    const confirmation = window.confirm('¿Seguro que deseas eliminar este Cliente?');
+  // Función para eliminar un docente
+  const handleDelete = (id_Usuario) => {
+    const confirmation = window.confirm('¿Seguro que deseas eliminar este vendedor?');
     if (confirmation) {
-      // Realiza la solicitud DELETE al servidor para eliminar la promoción
-      fetch(`http://localhost:5000/crud/deleteClientes/${id_Cliente}`, {
+      // Realiza la solicitud DELETE al servidor para eliminar el docente
+      fetch(`http://localhost:5000/crud/deleteClienteUsuario/${id_Usuario}`, {
         method: 'DELETE',
       })
         .then((response) => {
@@ -90,12 +88,12 @@ function ListaCliente() {
     }
   };
 
-  // Realiza una solicitud GET al servidor para obtener las promociones
+  // Realiza una solicitud GET al servidor para obtener los vendedores
   useEffect(() => {
-    fetch('http://localhost:5000/crud/readclientes')
+    fetch('http://localhost:5000/crud/readUsuarioyClientes')
       .then((response) => response.json())
-      .then((data) => setCliente(data))
-      .catch((error) => console.error('Error al obtener las promociones:', error));
+      .then((data) => setClientes(data))
+      .catch((error) => console.error('Error al obtener los clientes y usuarios:', error));
   }, []);
 
   return (
@@ -108,26 +106,31 @@ function ListaCliente() {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>id_Cliente</th>
-                <th>cedula</th>
-                <th>nombre</th>
-                <th>apellido</th>
-                <th>historialdecompras</th>
-                <th>direccionEnvio</th>
+                <th>ID</th>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Historial de Compras</th>
+                <th>Direccion de Envio</th>
+              
+              
+            
               </tr>
             </thead>
             <tbody>
-              {cliente.map((cliente) => (
-                <tr key={cliente.id_Cliente}>
-                  <td>{cliente.id_Cliente}</td>
-                  <td>{cliente.cedula}</td>
-                  <td>{cliente.nombre}</td>
-                  <td>{cliente.apellido}</td>
-                  <td>{cliente.historialdecompras}</td>
-                  <td>{cliente.direccionEnvio}</td>
+              {clientes.map((clientes) => (
+                <tr key={clientes.id_Cliente}>
+                  <td>{clientes.id_Cliente}</td>
+                  <td>{clientes.cedula}</td>
+                  <td>{clientes.nombre}</td>
+                  <td>{clientes.apellido}</td>
+                  <td>{clientes.historialdecompras}</td>
+                  <td>{clientes.direccionEnvio}</td>
+                 
+                 
                   <td>
-                    <Button variant="primary" onClick={() => openModal(cliente)}>Actualizar</Button>
-                    <Button variant="danger" onClick={() => handleDelete(cliente.id_Cliente)}>Eliminar</Button>
+                  <Button variant="primary" onClick={() => openModal(clientes)}><FaPencil/></Button>
+                  <Button variant="danger" onClick={() => handleDelete(clientes.id_Cliente)}><FaTrashCan/></Button>
                   </td>
                 </tr>
               ))}
@@ -143,11 +146,13 @@ function ListaCliente() {
         <Modal.Body>
           <Card className="mt-3">
             <Card.Body>
-              <Card.Title>Cliente</Card.Title>
+              <Card.Title>Registro de Vendedor</Card.Title>
               <Form className="mt-3">
                 <Row className="g-3">
 
-                  <Col sm="6" md="6" lg="6">
+
+
+                <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="cedula" label="Cedula Cliente">
                       <Form.Control
                         type="text"
@@ -209,6 +214,7 @@ function ListaCliente() {
                     </FloatingLabel>
                   </Col>
 
+                  
                 </Row>
               </Form>
             </Card.Body>

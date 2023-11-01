@@ -22,8 +22,9 @@ function ListaDescuento() {
     setSearchQuery(e.target.value);
   };
 
-  const filteredDescuentos = descuentos.filter((descuento) => {
-    // Verifica si descuento y sus propiedades están definidos
+
+  const filteredDescuentos = descuentos.filter((descuento) => { 
+    
     if (descuento && descuento.codigoDescuentos && descuento.condiciones && descuento.fecha_Inicio && descuento.fecha_Fin) {
       // Convierte los valores de los campos a minúsculas para realizar una búsqueda insensible a mayúsculas y minúsculas
       const codigoDescuentos = descuento.codigoDescuentos.toString().toLowerCase();

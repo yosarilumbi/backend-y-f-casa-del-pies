@@ -32,8 +32,9 @@ CREATE TABLE PromocionesyDescuentos (
 
 CREATE TABLE Usuario (
   id_Usuario Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nombre_Usuario Varchar(30),
-  contrasena Varchar(16)
+  nombre_Usuario Varchar(30) NOT NULL,
+  contrasena Varchar(16) NOT NULL,
+  rol Varchar (20) NOT NULL
 );
 
 CREATE TABLE Vendedor (
@@ -50,9 +51,9 @@ CREATE TABLE Clientes (
   cedula Varchar(16),
   nombre Varchar(30),
   apellido Varchar(30),
-  historialdecompras Varchar(50),
-  direccionEnvio Varchar(100),
-  id_Usuario Int
+  historialdecompras Varchar(200),
+  direccionEnvio Varchar(200),
+  id_Usuario Int UNIQUE
 );
 
 CREATE TABLE Productos (
@@ -69,26 +70,39 @@ CREATE TABLE DetalleVenta (
   id_detalleVenta Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_producto Int,
   cod_Venta Int,
-  id_Categoria Int
+  id_Categoria Int,
+  cantidad Int,
+  total int
+  
 );
 
 CREATE TABLE Ventas (
   cod_Venta Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_Cliente Int,
   id_Vendedor Int,
+  cantidadProducto Int,
+ total Int,
+ metododePago Varchar (15),
   fecha Date,
   Estado Varchar(50),
   Presencial_enLinea Varchar(50)
+  
 );
 
  CREATE TABLE bitacora (
  id_bitacora INT NOT NULL AUTO_INCREMENT,
  transaccion VARCHAR(10) NOT NULL,
- usuario VARCHAR (10),
+ usuario VARCHAR (40),
  fecha DATETIME NOT NULL,
- tabla VARCHAR (20) NOT NULL,
+ tabla VARCHAR (22) NOT NULL,
  PRIMARY KEY (id_bitacora)
  );
+ 
+ CREATE TABLE Imagenes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(255) NOT NULL,
+  imagenUrl VARCHAR(255) NOT NULL
+);
 
 ALTER TABLE Productos
 ADD CONSTRAINT FK_Productos_id_Categoria

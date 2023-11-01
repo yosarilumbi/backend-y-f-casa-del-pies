@@ -6,11 +6,14 @@ import '../App.css';
 function Cliente() {
 
   // Crear un estado para cada campo del formulario
+  const [cedula, setCedula] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
-  const [cedula, setCedula] = useState('');
-  const [direccionEnvio, setDireccionEnvio] = useState('');
-  const [historialdecompras, setHistorialDeCompras] = useState('');
+  const [historialdecompras, setHistorialDeCompras] = useState('')
+  const [direccionEnvio, setDireccionEnvio] = useState('');;
+  const [nombre_Usuario, setNombreUsuario] = useState('');
+  const [contrasena, setContrasena] = useState('');
+  
 
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
@@ -18,11 +21,13 @@ function Cliente() {
 
     // Crear un objeto con los datos del formulario
     const formData = {
+      cedula,
       nombre,
       apellido,
-      cedula,
-      direccionEnvio,
       historialdecompras,
+      direccionEnvio,
+      nombre_Usuario,  // Agregar el campo nombre_Usuario
+      contrasena      // Agregar el campo contrasena
     };
 
     try {
@@ -39,11 +44,14 @@ function Cliente() {
         // El registro se creó exitosamente
         alert('Registro exitoso');
         // Reiniciar los campos del formulario
+        setCedula('');
         setNombre('');
         setApellido('');
-        setCedula('');
-        setDireccionEnvio('');
         setHistorialDeCompras('');
+        setDireccionEnvio('');
+        setNombreUsuario(''); 
+        setContrasena('');   
+
       } else {
         alert('Error al registrar el cliente');
       }
@@ -60,11 +68,22 @@ function Cliente() {
       <Container>
         <Card className="mt-3">
           <Card.Body>
-            <Card.Title>Registro de Cliente</Card.Title>
+            <Card.Title>Registrar Cliente</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
               <Row className="g-3">
 
-                <Col sm="6" md="6" lg="6">
+              <Col sm="12" md="6" lg="6">
+                  <FloatingLabel controlId="cedula" label="Cédula">
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Ingrese la cédula"
+                      value={cedula}
+                      onChange={(e) => setCedula(e.target.value)} 
+                    />
+                  </FloatingLabel>
+                </Col>
+
+              <Col sm="6" md="6" lg="6">
                   <FloatingLabel controlId="nombre" label="Nombre">
                     <Form.Control
                       type="text"
@@ -86,19 +105,9 @@ function Cliente() {
                   </FloatingLabel>
                 </Col>
 
-                <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="cedula" label="Cédula">
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Ingrese la cédula"
-                      value={cedula}
-                      onChange={(e) => setCedula(e.target.value)} 
-                    />
-                  </FloatingLabel>
-                </Col>
 
                 <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="direccion" label="Dirección">
+                  <FloatingLabel controlId="direccionEnvio" label="Dirección">
                     <Form.Control 
                       type="text" 
                       placeholder="Ingrese la dirección"
@@ -115,6 +124,29 @@ function Cliente() {
                       placeholder="Ingrese el historial de compras" 
                       value={historialdecompras}
                       onChange={(e) => setHistorialDeCompras(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+
+
+                <Col sm="6" md="6" lg="6">
+                  <FloatingLabel controlId="nombre_Usuario" label="Nombre Usuario">
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingrese su nombre usuario"
+                      value={nombre_Usuario}
+                      onChange={(e) => setNombreUsuario(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+
+                <Col sm="6" md="6" lg="6">
+                  <FloatingLabel controlId="contrasena" label="Contraseña">
+                    <Form.Control
+                      type="password"
+                      placeholder="Ingrese su contraseña"
+                      value={contrasena}
+                      onChange={(e) => setContrasena(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>

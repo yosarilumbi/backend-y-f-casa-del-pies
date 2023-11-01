@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Offcanvas, Button, NavDropdown, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ rol }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
@@ -12,10 +12,12 @@ function Header() {
 
   return (
     <div>
+      {rol === 'admin' && (
+         <div>
       {/* Navbar principal */}
       <Navbar className="navbar-color" variant="dark" expand="md">
         <Container>
-          <Navbar.Brand href="#home">Casa Del Pies</Navbar.Brand>
+          <Navbar.Brand href="#home">La Nueva Casa Del Pies</Navbar.Brand>
           <Navbar.Toggle 
             aria-controls="basic-navbar-nav"
             style={{ display: 'none' }}
@@ -23,6 +25,10 @@ function Header() {
           />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
+            <Nav.Link>
+                    <Link to="/" className="link-unstyled">Inicio</Link>
+                  </Nav.Link>
+              
 
 
               <NavDropdown title="Usuario" id="usuario">
@@ -31,7 +37,18 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-usuario" className="link-unstyled">Listar Usuario</Link>
+                  <Link to="/ListaUsuario" className="link-unstyled">Listar Usuario</Link>
+                </NavDropdown.Item>
+              </NavDropdown>
+
+
+              <NavDropdown title="Login" id="login">
+                <NavDropdown.Item>
+                  <Link to="/Login" className="link-unstyled">Inicio de Sesion</Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item>
+                  <Link to="/ListaUsuario" className="link-unstyled">Listar Usuario</Link>
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -47,6 +64,16 @@ function Header() {
                 </NavDropdown.Item>
               </NavDropdown>
 
+
+              <NavDropdown title="Imagenes" id="imagenes">
+                <NavDropdown.Item>
+                  <Link to="/imagenes" className="link-unstyled">Agregar Imagen</Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item>
+                  <Link to="/ListaImagen" className="link-unstyled">Listar Imagen</Link>
+                </NavDropdown.Item>
+              </NavDropdown>
 
               <NavDropdown title="Clientes" id="clientes">
                 <NavDropdown.Item>
@@ -116,8 +143,10 @@ function Header() {
                 <NavDropdown.Item>
                   <Link to="/listaDescuento" className="link-unstyled">Listar Descuentos</Link>
                 </NavDropdown.Item>
-
-              </NavDropdown>
+        </NavDropdown>
+        
+        
+           
 
 
 
@@ -157,9 +186,21 @@ function Header() {
                 </NavDropdown.Item>
 
                 <NavDropdown.Item>
-                  <Link to="/actualizar-usuario" className="link-unstyled">Listar Usuario</Link>
+                  <Link to="/ListaUsuario" className="link-unstyled">Listar Usuario</Link>
                 </NavDropdown.Item>
               </NavDropdown>
+
+              <NavDropdown title="Login" id="login">
+                <NavDropdown.Item>
+                  <Link to="/Login" className="link-unstyled">Inicio de Sesion</Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item>
+                  <Link to="/ListaUsuario" className="link-unstyled">Listar Usuario</Link>
+                </NavDropdown.Item>
+              </NavDropdown>
+
+
 
               <NavDropdown title="Vendedor" id="vendedor">
                 <NavDropdown.Item>
@@ -170,6 +211,17 @@ function Header() {
                   <Link to="/ListaVendedor" className="link-unstyled">Listar Vendedor</Link>
                 </NavDropdown.Item>
               </NavDropdown>
+
+              <NavDropdown title="Imagenes" id="imagenes">
+                <NavDropdown.Item>
+                  <Link to="/imagenes" className="link-unstyled">Agregar Imagen</Link>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item>
+                  <Link to="/ListaImagen" className="link-unstyled">Listar Imagen</Link>
+                </NavDropdown.Item>
+              </NavDropdown>
+
 
             <NavDropdown title="Clientes" id="clientes">
               <NavDropdown.Item>
@@ -241,11 +293,21 @@ function Header() {
                 </NavDropdown.Item>
                </NavDropdown> 
 
-          </Nav>
-        </Offcanvas.Body>
-      </Offcanvas>
-    </div>
+               </Nav>
+            </Offcanvas.Body>
+          </Offcanvas>
+        </div> )}
+
+        {rol === 'vendedor' && ( 
+      <div>
+        
+           
+</div>)} 
+ 
+</div>
+
   );
+  
 }
 
 export default Header;

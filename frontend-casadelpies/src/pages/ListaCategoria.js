@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
 
-function ListaDescuento() {
-  const [descuentos, setDescuentos] = useState([]);
+function ListaCategoria() {
+  const [categorias, setCategorias] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedDescuento, setSelectedDescuento] = useState({});
   const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ function ListaDescuento() {
   };
 
   const loadDescuentos = () => {
-    fetch('http://localhost:5000/crud/readpromociones')
+    fetch('http://localhost:5000/crud/readcategorias')
       .then((response) => response.json())
       .then((data) => setDescuentos(data))
       .catch((error) => console.error('Error al obtener los descuentos:', error));
@@ -59,7 +59,7 @@ function ListaDescuento() {
   // Función para enviar el formulario de actualización
   const handleUpdate = () => {
     // Realiza la solicitud PUT al servidor para actualizar el registro
-    fetch(`http://localhost:5000/crud/updatePromocionesyDescuentos/${selectedDescuento.id_Promociones}`, {
+    fetch(`http://localhost:5000/crud/updatecategorias/${selectedCategoeias.id_Categoria}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ function ListaDescuento() {
 
   // Realiza una solicitud GET al servidor para obtener las promociones
   useEffect(() => {
-    fetch('http://localhost:5000/crud/readpromociones')
+    fetch('http://localhost:5000/crud/readcategorias')
       .then((response) => response.json())
       .then((data) => setDescuentos(data))
       .catch((error) => console.error('Error al obtener las promociones:', error));

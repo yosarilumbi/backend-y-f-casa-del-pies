@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 function ListaProducto() {
-  const [producto, setProducto] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState({});
   const [formData, setFormData] = useState({
+    id_Categoria: '',
     nombre: '',
     descripcion: '',
     precio: '',
+    id_Marca: '',
+    id_Promociones: '',
   });
 
   // Función para abrir el modal y pasar los datos del producto seleccionado
@@ -17,10 +21,12 @@ function ListaProducto() {
     setSelectedProducto(producto);
 
     setFormData({
-      
+      id_Categoria: producto.id_Categoria,
       nombre: producto.nombre,
-      descripcion: producto.descripcion,
+      descripcion: producto.descripcion, 
       precio: producto.precio,
+      id_Marca: producto.id_Marca,
+      id_Promociones: producto.id_Promociones,
     });
     setShowModal(true);
   };
@@ -37,10 +43,9 @@ function ListaProducto() {
   const loadProducto = () => {
     fetch('http://localhost:5000/crud/readProductos')
       .then((response) => response.json())
-      .then((data) => setProducto(data))
+      .then((data) => setProductos(data))
       .catch((error) => console.error('Error al obtener los productos:', error));
   };
-  
 
   // Función para enviar el formulario de actualización
   const handleUpdate = () => {
@@ -67,9 +72,9 @@ function ListaProducto() {
     const confirmation = window.confirm('¿Seguro que deseas eliminar este producto?');
     if (confirmation) {
       // Realiza la solicitud DELETE al servidor para eliminar el producto
-      fetch(`http://localhost:5000/crud/deleteProducto/${id_Producto}`, {
-        method: 'DELETE',
-      })
+      fetch(`http://localhost:5000/crud/deleteProductos/${id_Producto}`, {
+  method: 'DELETE',
+})
         .then((response) => {
           if (response.ok) {
             // La eliminación fue exitosa, refresca la lista de productos
@@ -84,7 +89,7 @@ function ListaProducto() {
   useEffect(() => {
     fetch('http://localhost:5000/crud/readProductos')
       .then((response) => response.json())
-      .then((data) => setProducto(data))
+      .then((data) => setProductos(data))
       .catch((error) => console.error('Error al obtener los productos:', error));
   }, []);
 
@@ -94,31 +99,33 @@ function ListaProducto() {
 
       <Card className="m-3">
         <Card.Body>
-        <Card.Title className="mb-3">Listado de productos</Card.Title>
+          <Card.Title className="mb-3">Listado de productos</Card.Title>
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>ID</th>
+                <th>ID_Categoria</th>
                 <th>Nombre Producto</th>
                 <th>Descripcion</th>
                 <th>Precio</th>
+                <th>ID_Marca</th>
+                <th>ID_Promociones</th>
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(producto) ? (
-                producto.map((producto) => (
+              {Array.isArray(productos) ? (
+                productos.map((producto) => (
                   <tr key={producto.id_Producto}>
                     <td>{producto.id_Producto}</td>
+                    <td>{producto.id_Categoria}</td>
                     <td>{producto.nombre}</td>
                     <td>{producto.descripcion}</td>
                     <td>{producto.precio}</td>
+                    <td>{producto.id_Marca}</td>
+                    <td>{producto.id_Categoria}</td>
                     <td>
-                      <Button variant="primary" onClick={() => openModal(producto)}>
-                        Actualizar
-                      </Button>
-                      <Button variant="danger" onClick={() => handleDelete(producto.id_Producto)}>
-                        Eliminar
-                      </Button>
+                      <Button variant="primary" onClick={() => openModal(producto)}><FaPencil/></Button>
+                      <Button variant="danger" onClick={() => handleDelete(producto.id_Producto)}><FaTrashCan/></Button>
                     </td>
                   </tr>
                 ))
@@ -142,6 +149,17 @@ function ListaProducto() {
               <Card.Title>Producto</Card.Title>
               <Form className="mt-3">
                 <Row className="g-3">
+                  <Col sm="6" md="6" lg="6">
+                    <FloatingLabel controlId="id_Categoria" label="ID de la Categoria">
+                      <Form.Control
+                        type="number"
+                        placeholder="Ingrese el id de la categoria"
+                        name="id_Categoria"
+                        value={formData.id_Categoria}
+                        onChange={handleFormChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
                   <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="nombre" label="Nombre de Producto">
                       <Form.Control
@@ -175,6 +193,28 @@ function ListaProducto() {
                       />
                     </FloatingLabel>
                   </Col>
+                  <Col sm="6" md="6" lg="6">
+                    <FloatingLabel controlId="id_Marca" label="ID de la Marca">
+                      <Form.Control
+                        type="number"
+                        placeholder="Ingrese el id de la Marca"
+                        name="id_Marca"
+                        value={formData.id_Marca}
+                        onChange={handleFormChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
+                  <Col sm="6" md="6" lg="6">
+                    <FloatingLabel controlId="id_Promociones" label="ID de la promocion">
+                      <Form.Control
+                        type="number"
+                        placeholder="Ingrese el id de la promocion"
+                        name="id_Promociones"
+                        value={formData.id_Promociones}
+                        onChange={handleFormChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
                 </Row>
               </Form>
             </Card.Body>
@@ -194,4 +234,3 @@ function ListaProducto() {
 }
 
 export default ListaProducto;
-

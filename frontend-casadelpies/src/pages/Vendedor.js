@@ -12,6 +12,7 @@ function Vendedor() {
   const [apellido, setApellido] = useState('');
   const [nombre_Usuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [rol, setRol] = useState('');
   
 
   // Función para manejar el envío del formulario
@@ -25,7 +26,8 @@ function Vendedor() {
       nombre,
       apellido,
       nombre_Usuario,  // Agregar el campo nombre_Usuario
-      contrasena      // Agregar el campo contrasena
+      contrasena,      // Agregar el campo contrasena
+      rol
     };
 
     try {
@@ -48,6 +50,7 @@ function Vendedor() {
         setApellido('');
         setNombreUsuario('');
         setContrasena('');
+        setRol('');
       } else {
         alert('Error al registrar el vendedor');
       }
@@ -133,6 +136,19 @@ function Vendedor() {
                     />
                   </FloatingLabel>
                 </Col>
+
+                <Col sm="6" md="6" lg="6">
+                  <FloatingLabel controlId="rol" label="Rol">
+                    <Form.Control
+                      type="text"
+                      placeholder="Ingrese El Rol de este usuario"
+                      value={rol}
+                      onChange={(e) => setRol(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+
+
 
               </Row>
               <div className="center-button">
