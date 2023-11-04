@@ -13,6 +13,33 @@ function ListaVendedor() {
     apellido: '',
 
   });
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredVendedor = vendedor.filter((vendedor) => { 
+    
+    if (vendedor && vendedor.direccion && vendedor.telefono && vendedor.nombre && vendedor.apellido) {
+      // Convierte los valores de los campos a minúsculas para realizar una búsqueda insensible a mayúsculas y minúsculas
+      const direccion = vendedor.direccion.toString().toLowerCase();
+      const telefono = vendedor.telefono.toString().toLowerCase();
+      const nombre = vendedor.nombre.toString().toLowerCase();
+      const apellido = vendedor.apellido.toString().toLowerCase();
+    
+  
+      // Verifica si la cadena de búsqueda se encuentra en algún campo
+      return (
+        direccion.includes(searchQuery) ||
+        telefono.includes(searchQuery) ||
+        nombre.includes(searchQuery) ||
+        apellido.includes(searchQuery)
+      );
+    }
+    return false; // Si algún valor está indefinido, no incluirlo en los resultados
+  });
+  
 
   // Función para abrir el modal y pasar los datos del vendedor seleccionado
   const openModal = (vendedor) => {
@@ -98,6 +125,22 @@ function ListaVendedor() {
       <Card className="m-3">
         <Card.Body>
           <Card.Title className="mb-3">Listado de Vendedor</Card.Title>
+
+  <Row className="mb-3">
+    <Col>
+    <FloatingLabel controlId="search" label="Buscar">
+      <Form.Control
+        type="text"
+        placeholder="Buscar"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+      </FloatingLabel>
+       </Col>
+       </Row>
+
+
+
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -111,7 +154,7 @@ function ListaVendedor() {
               </tr>
             </thead>
             <tbody>
-              {vendedor.map((vendedor) => (
+              {filteredVendedor.map((vendedor) => (
                 <tr key={vendedor.ID_Vendedor}>
                   <td>{vendedor.ID_Vendedor}</td>
                   <td>{vendedor.direccion}</td>

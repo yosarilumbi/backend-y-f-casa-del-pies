@@ -160,6 +160,8 @@ function ListaProducto() {
                       />
                     </FloatingLabel>
                   </Col>
+
+
                   <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="nombre" label="Nombre de Producto">
                       <Form.Control
@@ -171,6 +173,9 @@ function ListaProducto() {
                       />
                     </FloatingLabel>
                   </Col>
+
+
+
                   <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="descripcion" label="Descripcion">
                       <Form.Control
@@ -193,6 +198,7 @@ function ListaProducto() {
                       />
                     </FloatingLabel>
                   </Col>
+                  
                   <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="id_Marca" label="ID de la Marca">
                       <Form.Control
@@ -204,6 +210,8 @@ function ListaProducto() {
                       />
                     </FloatingLabel>
                   </Col>
+
+                  
                   <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="id_Promociones" label="ID de la promocion">
                       <Form.Control

@@ -9,7 +9,7 @@ function Producto() {
   const [descripcion, setDescripcion] = useState(''); // Corregir el nombre de la variable
   const [precio, setPrecio] = useState('');
 
-  const [categorias, setCategorias] = useState([]); // Estado para almacenar las especialidades
+  const [categorias, setCategorias] = useState([]); // Estado para almacenar las categorias
   const [id_Categoria, setId_Categoria] = useState(''); // Estado para el valor seleccionado
 
   const [marcas, setMarcas] = useState([]); // Estado para almacenar las especialidades

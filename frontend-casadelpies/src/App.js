@@ -7,8 +7,8 @@ import ListaCliente from './pages/ListaCliente';
 import Categorias from './pages/Categorias';
 import Marcas from './pages/Marcas';
 import ListaMarcas from './pages/ListaMarcas';
-import Pagos from './pages/Pagos';
-import ListaPago from './pages/ListaPago';
+import ModoPagos from './pages/ModoPagos';
+import ListaModoPago from './pages/ListaModoPago';
 import Producto from'./pages/Producto';
 import ListaProducto from './pages/ListaProducto';
 import Descuento from './pages/Descuento';
@@ -38,8 +38,8 @@ function App() {
         <Route path="/Marcas" element={<Marcas rol={userRol} />} />
         <Route path="/ListaMarcas" element={<ListaMarcas rol={userRol} />} />
         <Route path="/Categorias" element={<Categorias rol={userRol} />} />
-        <Route path="/Pagos" element={<Pagos rol={userRol} />} />
-        <Route path="/ListaPago" element={<ListaPago rol={userRol} />} />
+        <Route path="/ModoPagos" element={<ModoPagos rol={userRol} />} />
+        <Route path="/ListaModoPago" element={<ListaModoPago rol={userRol} />} />
         <Route path="/Producto" element={<Producto rol={userRol}/>} />
         <Route path="/ListaProducto" element={<ListaProducto rol={userRol}/>} />
         <Route path="/descuento" element={<Descuento rol={userRol}/>} />

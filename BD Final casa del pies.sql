@@ -12,14 +12,10 @@ CREATE TABLE Marcas (
   nombre_Marca Varchar(60)
 );
 
-CREATE TABLE Pagos (
-  id_Pago Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  metododePago Varchar(30),
-  codigoPago Int,
-  cod_Venta Int,
-  monto Decimal(12,2),
-  fecha_pago Date,
-  id_Cliente Int
+CREATE TABLE ModoPagos (
+  id_ModoPago Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  Nombre_ModoPago Varchar(20)
+
 );
 
 CREATE TABLE PromocionesyDescuentos (
@@ -52,7 +48,6 @@ CREATE TABLE Clientes (
   nombre Varchar(30),
   apellido Varchar(30),
   historialdecompras Varchar(200),
-  direccionEnvio Varchar(200),
   id_Usuario Int UNIQUE
 );
 
@@ -67,13 +62,11 @@ CREATE TABLE Productos (
 );
 
 CREATE TABLE DetalleVenta (
-  id_detalleVenta Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  id_producto Int,
   cod_Venta Int,
-  id_Categoria Int,
   cantidad Int,
-  total int
-  
+  id_producto Int,
+  PrecioUnitario Int,
+  TotalDetalle int
 );
 
 CREATE TABLE Ventas (
@@ -81,11 +74,12 @@ CREATE TABLE Ventas (
   id_Cliente Int,
   id_Vendedor Int,
   cantidadProducto Int,
- total Int,
- metododePago Varchar (15),
+  id_ModoPago Int,
   fecha Date,
   Estado Varchar(50),
-  Presencial_enLinea Varchar(50)
+  TipoVentas Varchar(20),
+   Direccion_Envio Varchar(50),
+  Total_Venta Int,
   
 );
 
@@ -98,11 +92,11 @@ CREATE TABLE Ventas (
  PRIMARY KEY (id_bitacora)
  );
  
- CREATE TABLE Imagenes (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(255) NOT NULL,
-  imagenUrl VARCHAR(255) NOT NULL
-);
+
+ALTER TABLE DetalleVenta 
+ADD CONSTRAINT FK_DetalleVenta_cod_Venta
+FOREIGN KEY (cod_Venta) 
+REFERENCES Ventas (cod_Venta);
 
 ALTER TABLE Productos
 ADD CONSTRAINT FK_Productos_id_Categoria
@@ -119,35 +113,28 @@ ADD CONSTRAINT FK_Productos_id_Promociones
 FOREIGN KEY (id_Promociones) 
 REFERENCES PromocionesyDescuentos (id_Promociones);
 
-ALTER TABLE DetalleVenta 
-ADD CONSTRAINT FK_DetalleVenta_id_producto 
-FOREIGN KEY (id_producto) 
-REFERENCES Productos (id_Producto);
 
 ALTER TABLE Ventas 
 ADD CONSTRAINT FK_Ventas_id_Cliente 
 FOREIGN KEY (id_Cliente) 
 REFERENCES Clientes (id_Cliente);
 
-ALTER TABLE DetalleVenta 
-ADD CONSTRAINT FK_DetalleVenta_cod_Venta
-FOREIGN KEY (cod_Venta) 
-REFERENCES Ventas (cod_Venta);
+ALTER TABLE Ventas
+ADD CONSTRAINT FK_Ventas_id_ModoPago
+FOREIGN KEY (id_ModoPago)
+REFERENCES ModoPagos(id_ModoPago);
 
-ALTER TABLE Pagos 
-ADD CONSTRAINT FK_Pagos_cod_Venta
-FOREIGN KEY (cod_Venta) 
-REFERENCES Ventas (cod_Venta);
 
 ALTER TABLE Ventas 
 ADD CONSTRAINT FK_Ventas_id_Vendedor
 FOREIGN KEY (id_Vendedor) 
 REFERENCES Vendedor (id_Vendedor);
 
-ALTER TABLE Pagos 
-ADD CONSTRAINT FK_Pagos_id_Cliente
-FOREIGN KEY (id_Cliente) 
-REFERENCES Clientes (id_Cliente);
+ALTER TABLE DetalleVenta 
+ADD CONSTRAINT FK_DetalleVenta_id_producto 
+FOREIGN KEY (id_producto) 
+REFERENCES Productos (id_Producto);
+
 
 ALTER TABLE Clientes 
 ADD CONSTRAINT FK_Clientes_id_Usuario

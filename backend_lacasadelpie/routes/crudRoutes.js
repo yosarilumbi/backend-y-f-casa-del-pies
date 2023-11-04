@@ -228,11 +228,15 @@ router.delete('/deleteMarcas/:id_Marca', (req, res) => {
   });
 });
 
- // Ruta para leer registros
- router.get('/readpagos', (req, res) => {
+ 
+
+
+
+// Ruta para leer registros
+router.get('/readmodopagos', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
   // Realizar una consulta SQL para seleccionar todos los registros
-  const sql = 'SELECT * FROM Pagos';
+  const sql = 'SELECT * FROM modopagos';
 
   // Ejecutar la consulta
   db.query(sql, (err, result) => {
@@ -246,19 +250,20 @@ router.delete('/deleteMarcas/:id_Marca', (req, res) => {
   });
 });
 
+
 // Ruta para crear un nuevo registro con ID específico
-router.post('/createPagos', (req, res) => {
+router.post('/createmodoPagos', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const { id_Pago, metododePago, codigoPago,cod_Venta,monto,fecha_pago,id_Cliente } = req.body;
+  const { Nombre_ModoPago } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!id_Pago || !metododePago|| !codigoPago|| !cod_Venta|| !monto || !fecha_pago| !id_Cliente ) {
+  if ( !Nombre_ModoPago ) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO pagos (Id_Pago, MetododePago, CodigoPago,CodigoVenta,MontoVenta,FechaPago,id_Cliente) VALUES (?, ?,?,?,?, ?,?)`;
-  const values = [id_Pago, metododePago, codigoPago,cod_Venta,monto,fecha_pago,id_Cliente ];
+  const sql = `INSERT INTO modopagos (!Nombre_ModoPago) VALUES (?)`;
+  const values = [Nombre_ModoPago ];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -267,32 +272,32 @@ router.post('/createPagos', (req, res) => {
       res.status(500).json({ error: 'Error al insertar registro' });
     } else {
       // Devuelve el ID del nuevo registro como respuesta
-      res.status(201).json({ id_Pago });
+      res.status(201).json({ id_ModoPago });
     }
   });
 });
 
   // Ruta para actualizar un registro existente por ID
-router.put('/updatePagos/:id_Pago', (req, res) => {
+router.put('/updateModoPagos/:id_ModoPago', (req, res) => {
   // Obtén el ID del registro a actualizar desde los parámetros de la URL
-  const id_Pago = req.params.id_Pago;
+  const id_ModoPago = req.params.id_ModoPago;
 
   // Recibe los datos actualizados desde el cuerpo de la solicitud (req.body)
-  const { metododePago, codigoPago,cod_Venta,monto,fecha_pago,id_Cliente} = req.body;
+  const {Nombre_ModoPago} = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if ( !metododePago|| !codigoPago|| !cod_Venta|| !monto || !fecha_pago| !id_Cliente) {
+  if ( !Nombre_ModoPago) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para actualizar el registro por ID
   const sql = `
-    UPDATE Pagos
-    SET MetododePago = ?, CodigoPago = ?,cod_Venta =?,monto = ?,fecha_Pago = ?
-    WHERE ID_Pagos = ?
+    UPDATE modopagos
+    SET Nombre_ModoPago = ?
+    WHERE id_ModoPago = ?
   `;
 
-  const values = [ metododePago, codigoPago,cod_Venta,monto,fecha_pago,id_Cliente,id_Pago];
+  const values = [ Nombre_ModoPago,id_ModoPago];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -307,15 +312,15 @@ router.put('/updatePagos/:id_Pago', (req, res) => {
 });
 
 // Ruta para eliminar un registro existente por ID
-router.delete('/deletePagos/:id_Pago', (req, res) => {
+router.delete('/deleteModoPagos/:id_ModoPago', (req, res) => {
   // Obtén el ID del registro a eliminar desde los parámetros de la URL
-  const id_Pago = req.params.id_Pago;
+  const id_ModoPago = req.params.id_ModoPago;
 
   // Realiza la consulta SQL para eliminar el registro por ID
-  const sql = 'DELETE FROM Pagos WHERE ID_Pago = ?';
+  const sql = 'DELETE FROM modopagos WHERE id_ModoPago = ?';
 
   // Ejecuta la consulta
-  db.query(sql, [id_Pago], (err, result) => {
+  db.query(sql, [id_ModoPago], (err, result) => {
     if (err) {
       console.error('Error al eliminar el registro:', err);
       res.status(500).json({ error: 'Error al eliminar el registro' });
@@ -564,10 +569,9 @@ db.query(sql, (err, result) => {
       nombre, 
       apellido,
       historialdecompras,
-      direccionEnvio,
     } = req.body;
   
-    if (!id_Cliente|| !cedula|| !nombre|| !apellido || !historialdecompras || !direccionEnvio) {
+    if (!id_Cliente|| !cedula|| !nombre|| !apellido || !historialdecompras) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
   
@@ -580,8 +584,8 @@ db.query(sql, (err, result) => {
         return res.status(500).json({ error: 'Error al actualizar el registro en Usuario' });
       }
   
-      const sqlclientes = 'UPDATE clientes SET id_Cliente = ?, cedula = ?, nombre = ?, apellido = ?, historialdecompras = ?,direccionEnvio =? WHERE id_Cliente = ?';
-      const valuesclientes = [id_Cliente,cedula, nombre, apellido,historialdecompras,direccionEnvio, id_Cliente];
+      const sqlclientes = 'UPDATE clientes SET id_Cliente = ?, cedula = ?, nombre = ?, apellido = ?, historialdecompras = ? WHERE id_Cliente = ?';
+      const valuesclientes = [id_Cliente,cedula, nombre, apellido,historialdecompras, id_Cliente];
   
       db.query(sqlclientes, valuesclientes, (err, resultclientes) => {
         if (err) {
@@ -643,13 +647,12 @@ db.query(sql, (err, result) => {
         nombre, 
         apellido,
         historialdecompras,
-        direccionEnvio,
         nombre_Usuario,  // Agregar el campo nombre_Usuario
         contrasena,      // Agregar el campo contrasena
         rol
       } = req.body;
     
-      if (!cedula || !nombre || !apellido|| !historialdecompras|| !direccionEnvio || !nombre_Usuario || !contrasena ||!rol) {
+      if (!cedula || !nombre || !apellido|| !historialdecompras|| !nombre_Usuario || !contrasena ||!rol) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios' });
       }
     
@@ -663,8 +666,8 @@ db.query(sql, (err, result) => {
         } else {
           const id_Usuario = result.insertId;
     
-          const sqlclientes = 'INSERT INTO clientes (cedula, nombre,apellido,historialdecompras,direccionEnvio,  id_Usuario) VALUES (?, ?, ?, ?, ?,?)';
-          const valuesclientes = [cedula, nombre, apellido,historialdecompras,direccionEnvio, id_Usuario]; // Usar el ID_Usuario obtenido anteriormente
+          const sqlclientes = 'INSERT INTO clientes (cedula, nombre,apellido,historialdecompras, id_Usuario) VALUES (?, ?, ?, ?,?)';
+          const valuesclientes = [cedula, nombre, apellido,historialdecompras, id_Usuario]; // Usar el ID_Usuario obtenido anteriormente
     
           db.query(sqlclientes, valuesclientes, (err, result) => {
             if (err) {
@@ -685,10 +688,10 @@ db.query(sql, (err, result) => {
 
 
  // Ruta para leer registros
- router.get('/readvendedor', (req, res) => {
+ router.get('/readclientes', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
   // Realizar una consulta SQL para seleccionar todos los registros
-  const sql = 'SELECT * FROM Vendedor';
+  const sql = 'SELECT * FROM clientes';
 
   // Ejecutar la consulta
   db.query(sql, (err, result) => {
@@ -703,26 +706,26 @@ db.query(sql, (err, result) => {
 });
 
   // Ruta para actualizar un registro existente por ID
-router.put('/updateVendedor/:id_Vendedor', (req, res) => {
+router.put('/updateclientes/:id_Cliente', (req, res) => {
   // Obtén el ID del registro a actualizar desde los parámetros de la URL
-  const id_Vendedor = req.params.id_Vendedor;
+  const id_Cliente = req.params.id_Cliente;
 
   // Recibe los datos actualizados desde el cuerpo de la solicitud (req.body)
-  const { direccion, telefono, nombre, apellido, id_Usuario } = req.body;
+  const { cedula, nombre, apellido,historialdecompras, id_Usuario } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!direccion || !telefono || !nombre || !apellido|| !id_Usuario) {
+  if (!cedula ||!nombre || !apellido || !historialdecompras|| !id_Usuario) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para actualizar el registro por ID
   const sql = `
     UPDATE Vendedor
-    SET Direccion = ?, Telefono = ?, Nombre = ?, Apellido = ?,ID_Usuario = ?
-    WHERE ID Vendedor = ?
+    SET cedula = ?, nombre = ?, apellido = ?, historialdecompras = ?,ID_Usuario = ?
+    WHERE ID Clientes = ?
   `;
  
-  const values = [direccion, telefono, nombre, apellido,id_Usuario, id_Vendedor];
+  const values = [cedula, nombre, apellido,historialdecompras, id_Usuario];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -737,15 +740,15 @@ router.put('/updateVendedor/:id_Vendedor', (req, res) => {
 });
 
 // Ruta para eliminar un registro existente por ID
-router.delete('/deleteVendedor/:id_Vendedor', (req, res) => {
+router.delete('/deleteclientes/:id_Cliente', (req, res) => {
   // Obtén el ID del registro a eliminar desde los parámetros de la URL
   const id_Vendedor = req.params.id_Vendedor;
 
   // Realiza la consulta SQL para eliminar el registro por ID
-  const sql = 'DELETE FROM Vendedor WHERE ID_Vendedor = ?';
+  const sql = 'DELETE FROM clientes WHERE ID_Cliente = ?';
 
   // Ejecuta la consulta
-  db.query(sql, [id_Vendedor], (err, result) => {
+  db.query(sql, [id_Cliente], (err, result) => {
     if (err) {
       console.error('Error al eliminar el registro:', err);
       res.status(500).json({ error: 'Error al eliminar el registro' });
@@ -755,6 +758,12 @@ router.delete('/deleteVendedor/:id_Vendedor', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
 
 
 
@@ -864,7 +873,7 @@ router.delete('/deleteDetalleVenta/:id_detalleVenta', (req, res) => {
 router.get('/readVenta', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
   // Realizar una consulta SQL para seleccionar todos los registros
-  const sql = 'SELECT * FROM Ventas';
+  const sql = 'SELECT * FROM ventas';
 
   // Ejecutar la consulta
   db.query(sql, (err, result) => {
@@ -881,16 +890,16 @@ router.get('/readVenta', (req, res) => {
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createVentas', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const { cod_Venta, id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea } = req.body;
+  const {  id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!cod_Venta|| !id_Cliente|| !id_Vendedor || !fecha|| !cantidadProducto|| !total|| !metododePago || !Estado|| !Presencial_enLinea) {
+  if (!id_Cliente|| !id_Vendedor|| !cantidadProducto || !id_ModoPago || !fecha || !Estado|| !TipoVentas || !DireccionEnvio || !TotalVenta) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO Ventas (cod_Venta, id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea ) VALUES (?, ?, ?, ?, ?, ?,?,?,?)`;
-  const values = [cod_Venta, id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea ];
+  const sql = `INSERT INTO Ventas (id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta  ) VALUES (?, ?, ?, ?, ?, ?,?,?,?)`;
+  const values = [id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta  ];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -910,21 +919,21 @@ router.put('/updateVentas/:cod_Venta', (req, res) => {
   const cod_Venta = req.params.cod_Venta;
 
   // Recibe los datos actualizados desde el cuerpo de la solicitud (req.body)
-  const { id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea} = req.body;
+  const {id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!cod_Venta|| !id_Cliente|| !id_Vendedor || !fecha|| !cantidadProducto|| !total|| !metododePago || !Estado|| !Presencial_enLinea) {
+  if (!id_Cliente|| !id_Vendedor|| !cantidadProducto || !id_ModoPago || !fecha || !Estado|| !TipoVentas || !DireccionEnvio || !TotalVenta) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para actualizar el registro por ID
   const sql = `
-    UPDATE Ventas
-    SET id_Cliente = ?, id_Vendedor = ?, fecha = ?,cantidadProducto=?,total =?, metododePago=?, Estado = ?, Presencial_enLinea = ?
+    UPDATE ventas
+    SET id_Cliente = ?, id_Vendedor = ?,cantidadProducto=?, id_ModoPago=? , fecha = ?, Estado = ?, TipoVentas = ?,DireccionEnvio= ?,TotalVenta= ?
     WHERE cod_Venta= ?
   `;
  
-  const values = [ id_Cliente, id_Vendedor,cantidadProducto,total,metododePago, fecha, Estado, Presencial_enLinea,cod_Venta];
+  const values = [id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta,cod_Venta];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -1319,6 +1328,82 @@ router.delete('/deleteVendedorUsuario/:id_Usuario', (req, res) => {
     });
   });
   
+
+
+  
+ // Ruta para leer registros
+ router.get('/readvendedor', (req, res) => {
+  // Utiliza la instancia de la base de datos pasada como parámetro
+  // Realizar una consulta SQL para seleccionar todos los registros
+  const sql = 'SELECT * FROM Vendedor';
+
+  // Ejecutar la consulta
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al leer registros:', err);
+      res.status(500).json({ error: 'Error al leer registros' });
+    } else {
+      // Devolver los registros en formato JSON como respuesta
+      res.status(200).json(result);
+    }
+  });
+});
+
+  // Ruta para actualizar un registro existente por ID
+router.put('/updateVendedor/:id_Vendedor', (req, res) => {
+  // Obtén el ID del registro a actualizar desde los parámetros de la URL
+  const id_Vendedor = req.params.id_Vendedor;
+
+  // Recibe los datos actualizados desde el cuerpo de la solicitud (req.body)
+  const { direccion, telefono, nombre, apellido, id_Usuario } = req.body;
+
+  // Verifica si se proporcionaron los datos necesarios
+  if (!direccion || !telefono || !nombre || !apellido|| !id_Usuario) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  // Realiza la consulta SQL para actualizar el registro por ID
+  const sql = `
+    UPDATE Vendedor
+    SET Direccion = ?, Telefono = ?, Nombre = ?, Apellido = ?,ID_Usuario = ?
+    WHERE ID Vendedor = ?
+  `;
+ 
+  const values = [direccion, telefono, nombre, apellido,id_Usuario, id_Vendedor];
+
+  // Ejecuta la consulta
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error al actualizar el registro:', err);
+      res.status(500).json({ error: 'Error al actualizar el registro' });
+    } else {
+      // Devuelve un mensaje de éxito
+      res.status(200).json({ message: 'Registro actualizado con éxito' });
+    }
+  });
+});
+
+// Ruta para eliminar un registro existente por ID
+router.delete('/deleteVendedor/:id_Vendedor', (req, res) => {
+  // Obtén el ID del registro a eliminar desde los parámetros de la URL
+  const id_Vendedor = req.params.id_Vendedor;
+
+  // Realiza la consulta SQL para eliminar el registro por ID
+  const sql = 'DELETE FROM Vendedor WHERE ID_Vendedor = ?';
+
+  // Ejecuta la consulta
+  db.query(sql, [id_Vendedor], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar el registro:', err);
+      res.status(500).json({ error: 'Error al eliminar el registro' });
+    } else {
+      // Devuelve un mensaje de éxito
+      res.status(200).json({ message: 'Registro eliminado con éxito' });
+    }
+  });
+});
+
+
 
 
 
