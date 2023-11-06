@@ -5,7 +5,7 @@ import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 
 
-function ListaUsuario() {
+function ListaUsuario({rol}) {
   const [usuario, setUsuario] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedUsuario, setSelectedUsuario] = useState({});
@@ -109,7 +109,7 @@ function ListaUsuario() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>

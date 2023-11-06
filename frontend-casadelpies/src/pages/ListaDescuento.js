@@ -5,7 +5,7 @@ import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 
 
-function ListaDescuento() {
+function ListaDescuento({rol}) {
   const [descuentos, setDescuentos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedDescuento, setSelectedDescuento] = useState({});
@@ -135,7 +135,7 @@ function ListaDescuento() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>

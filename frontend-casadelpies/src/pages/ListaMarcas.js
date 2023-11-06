@@ -3,7 +3,7 @@ import { Table, Button, Card, Row, Col, Form, Modal, FloatingLabel } from 'react
 import Header from '../components/Header';
 import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
-function ListaMarcas() {
+function ListaMarcas({rol}) {
   const [marcas, setMarcas] = useState([]); // Change variable name to 'marcas'
   const [showModal, setShowModal] = useState(false);
   const [selectedMarca, setSelectedMarca] = useState({}); // Change variable name to 'selectedMarca'
@@ -68,7 +68,7 @@ function ListaMarcas() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>

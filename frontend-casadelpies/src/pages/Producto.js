@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import '../App.css';
 
 // Crear un estado para cada campo del formulario
-function Producto() {
+function Producto({rol}) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState(''); // Corregir el nombre de la variable
   const [precio, setPrecio] = useState('');
@@ -19,6 +19,25 @@ function Producto() {
   const [id_Promociones, setId_Promociones] = useState(''); // Estado para el valor seleccionado
 
 
+  const [imagen, setImagen] = useState('');
+
+  const handleImagenChange = (event) => {
+    const file = event.target.files[0]; // Obtener el primer archivo seleccionado
+  
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result; // Obtener la imagen en formato base64
+      setImagen(base64String); // Puedes visualizar la imagen en base64 en la consola para asegurarte de que la conversión se hizo correctamente
+    }; 
+    if (file) {
+      reader.readAsDataURL(file); // Lee el contenido del archivo como base64
+    }
+  };
+
+
+
+
+
     // Crear un objeto con los datos del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +48,8 @@ function Producto() {
       descripcion, // Usar la variable corregida
       precio,
       id_Marca,
-      id_Promociones
+      id_Promociones,
+      imagen
     };
 
     try {
@@ -49,6 +69,7 @@ function Producto() {
         setPrecio('');
         setId_Marca('');
         setId_Promociones('');
+        setImagen('');
 
       } else {
         alert('Error al registrar el producto');
@@ -102,7 +123,7 @@ function Producto() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Container>
         <Card className="mt-3">
@@ -199,6 +220,17 @@ function Producto() {
                   </FloatingLabel>
                 </Col>
 
+
+                <Col sm="12" md="6" lg="6">
+                  <Form.Group controlId="imagen" className="" >
+                    <Form.Control 
+                      type="file" 
+                      accept=".jpg, .png, .jpeg"
+                      size="lg"
+                      onChange={handleImagenChange}
+                    />
+                  </Form.Group>
+                </Col>
 
 
                 

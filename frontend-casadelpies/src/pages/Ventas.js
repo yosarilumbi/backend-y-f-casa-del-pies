@@ -3,19 +3,19 @@ import { Form, Row, Col, Container, FloatingLabel, Card, Button } from 'react-bo
 import Header from '../components/Header';
 import '../App.css';
 
-function Ventas() {
+function Ventas({rol}) {
 
   // Crear un estado para cada campo del formulario
-  const [clientes, setClientes] = useState([]); // Estado para almacenar las especialidades
+  const [clientes, setClientes] = useState([]); // Estado para almacenar los clientes
   const [id_Cliente, setId_Cliente] = useState('');
 
-  const [vendedor, setVendedor] = useState([]); // Estado para almacenar las especialidades
+  const [vendedor, setVendedor] = useState([]); // Estado para almacenar los vendedor
   const [id_Vendedor, setId_Vendedor] = useState('');
 
   const [cantidadProducto, setCantidadProducto] = useState('');
 
-  const [modopago, setModoPagos] = useState([]); // Estado para almacenar las especialidades
-  const [id_ModoPago, setId_Modopago] = useState('');
+  const [modopagos, setModoPagos] = useState([]); // Estado para almacenar los modo de pagos
+  const [id_ModoPago, setId_ModoPago] = useState('');
 
   const [fecha, setFecha] = useState('');
   const [Estado, setEstado] = useState('');
@@ -40,8 +40,7 @@ function Ventas() {
       Estado, 
       TipoVentas,
       Direccion_Envio ,
-      Total_Venta, 
-
+      Total_Venta
     };
 
     try {
@@ -61,7 +60,7 @@ function Ventas() {
         setId_Cliente('');
         setId_Vendedor('');
         setCantidadProducto('');
-        id_ModoPago('');
+        setId_ModoPago('');
         setFecha('');
         setEstado('');
         setTipoVentas('');
@@ -124,7 +123,7 @@ function Ventas() {
 
   return(
     <div>
-      <Header />
+      <Header rol={ rol }/>
       
       <Container>
         <Card className="mt-3">
@@ -176,7 +175,7 @@ function Ventas() {
                   <FloatingLabel controlId="cantidadProducto" label="Cantidad de Producto">
                     <Form.Control
                       type="text"
-                      placeholder="Ingrese la cantidad de peoducto"
+                      placeholder="Ingrese la cantidad de producto"
                       value={cantidadProducto}
                       onChange={(e) => setCantidadProducto(e.target.value)}
                     />
@@ -188,12 +187,12 @@ function Ventas() {
                     <Form.Select
                       aria-label="Nombre Modo Pagp"
                       value={id_ModoPago}
-                      onChange={(e) => setId_Modopago(e.target.value)}
+                      onChange={(e) => setId_ModoPago(e.target.value)}
                     >
                       <option>Seleccione el modo de Pago</option>
-                      {modopago.map((modopagos) => (
-                        <option key={modopago.id_ModoPago} value={modopagos.id_ModoPago}>
-                          {modopagos.Nombre_ModoPago}
+                      {modopagos.map((modopago) => (
+                        <option key={modopago.id_ModoPago} value={modopago.id_ModoPago}>
+                          {modopago.Nombre_ModoPago}
                         </option>
                       ))}
                     </Form.Select>
@@ -204,7 +203,7 @@ function Ventas() {
                 <Col sm="6" md="6" lg="6">
                   <FloatingLabel controlId="fecha" label="Fecha">
                     <Form.Control
-                      type="text"
+                      type="date"
                       placeholder="Ingrese la Fecha"
                       value={fecha}
                       onChange={(e) => setFecha(e.target.value)}

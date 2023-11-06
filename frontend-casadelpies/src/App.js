@@ -5,6 +5,7 @@ import About from './pages/About';
 import Cliente from './pages/Cliente';
 import ListaCliente from './pages/ListaCliente';
 import Categorias from './pages/Categorias';
+import ListaCategoria from './pages/ListaCategoria';
 import Marcas from './pages/Marcas';
 import ListaMarcas from './pages/ListaMarcas';
 import ModoPagos from './pages/ModoPagos';
@@ -19,8 +20,8 @@ import Usuario from './pages/Usuario';
 import ListaUsuario from './pages/ListaUsuario';
 import Vendedor from './pages/Vendedor';
 import ListaVendedor from './pages/ListaVendedor';
-import Imagenes from './pages/Imagenes';
 import Login from './pages/Login';
+import Galeria from './pages/Galeria';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/Marcas" element={<Marcas rol={userRol} />} />
         <Route path="/ListaMarcas" element={<ListaMarcas rol={userRol} />} />
         <Route path="/Categorias" element={<Categorias rol={userRol} />} />
+        <Route path="/ListaCategoria" element={<ListaCategoria rol={userRol} />} />
         <Route path="/ModoPagos" element={<ModoPagos rol={userRol} />} />
         <Route path="/ListaModoPago" element={<ListaModoPago rol={userRol} />} />
         <Route path="/Producto" element={<Producto rol={userRol}/>} />
@@ -48,9 +50,10 @@ function App() {
         <Route path="/ListaVenta" element={<ListaVenta rol={userRol}/>} />
         <Route path="/Usuario" element={<Usuario rol={userRol}/>} />
         <Route path="/ListaUsuario" element={<ListaUsuario rol={userRol}/>} />
-        <Route path="/vendedor" element={<Vendedor rol={userRol}/>} />
+        <Route path="/vendedor" element={<Vendedor userRol={userRol}/>} />
         <Route path="/ListaVendedor" element={<ListaVendedor rol={userRol}/>} />
-        <Route path="/Imagenes" element={<Imagenes rol={userRol}/>} />
+        <Route path="/galeria" element={<Galeria rol={userRol}/>} />
+  
       </Routes>
     </Router>
   );

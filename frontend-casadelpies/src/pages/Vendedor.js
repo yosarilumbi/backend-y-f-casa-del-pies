@@ -3,7 +3,7 @@ import { Form, Row, Col, Container, FloatingLabel, Card, Button } from 'react-bo
 import Header from '../components/Header';
 import '../App.css';
 
-function Vendedor() {
+function Vendedor({userRol}) {
 
   // Crear un estado para cada campo del formulario
   const [direccion, setDireccion] = useState('');
@@ -12,7 +12,7 @@ function Vendedor() {
   const [apellido, setApellido] = useState('');
   const [nombre_Usuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [rol, setRol] = useState('');
+  const rol = 'vendedor';
   
 
   // Función para manejar el envío del formulario
@@ -50,7 +50,6 @@ function Vendedor() {
         setApellido('');
         setNombreUsuario('');
         setContrasena('');
-        setRol('');
       } else {
         alert('Error al registrar el vendedor');
       }
@@ -62,7 +61,7 @@ function Vendedor() {
 
   return(
     <div>
-      <Header />
+      <Header rol={userRol} />
       
       <Container>
         <Card className="mt-3">
@@ -136,19 +135,6 @@ function Vendedor() {
                     />
                   </FloatingLabel>
                 </Col>
-
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="rol" label="Rol">
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese El Rol de este usuario"
-                      value={rol}
-                      onChange={(e) => setRol(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-
-
 
               </Row>
               <div className="center-button">

@@ -3,7 +3,7 @@ import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  }
 import Header from '../components/Header';
 import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
-function ListaVenta() {
+function ListaVenta({rol}) {
   const [ventas, setVenta] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState({});
@@ -19,6 +19,51 @@ function ListaVenta() {
       Total_Venta: '',
    
   });
+
+  const [clientes, setClientes] = useState([]); // Estado para almacenar los clientes
+  const [vendedor, setVendedor] = useState([]); // Estado para almacenar los vendedor
+  const [modopago, setModoPagos] = useState([]); // Estado para almacenar los modo de pagos
+
+  useEffect(() => {
+    // Realiza una solicitud a tu ruta para obtener los clientes
+    fetch('http://localhost:5000/crud//readvendedor')
+      .then(response => response.json())
+      .then(data => {
+        // Actualiza el estado con los vendedores obtenidas
+        setVendedor(data);
+      })
+      .catch(error => {
+        console.error('Error al obtener los vendedores', error);
+      });
+  }, []);
+
+
+  useEffect(() => {
+    // Realiza una solicitud a tu ruta para obtener los vendedores
+    fetch('http://localhost:5000/crud//readclientes')
+      .then(response => response.json())
+      .then(data => {
+        // Actualiza el estado con los vendedores obtenidas
+        setClientes(data);
+      })
+      .catch(error => {
+        console.error('Error al obtener los clientes', error);
+      });
+  }, []);
+
+
+  useEffect(() => {
+    // Realiza una solicitud a tu ruta para obtener los vendedores
+    fetch('http://localhost:5000/crud//readmodopagos')
+      .then(response => response.json())
+      .then(data => {
+        // Actualiza el estado con los vendedores obtenidas
+        setModoPagos(data);
+      })
+      .catch(error => {
+        console.error('Error al obtener los modo de pagos', error);
+      });
+  }, []);
   
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -62,7 +107,7 @@ function ListaVenta() {
 
   // Función para abrir el modal y pasar los datos de la promoción seleccionada
   const openModal = (ventas) => {
-    setSelectedDescuento(ventas);
+    setSelectedVenta(ventas);
 
     // Formatea la fecha para el campo Fecha_Inicio
     const formattedFecha = formatDateForInput(ventas.fecha);
@@ -99,7 +144,7 @@ function ListaVenta() {
     });
   };
 
-  const loadDescuentos = () => {
+  const loadventa = () => {
     fetch('http://localhost:5000/crud/readVenta')
       .then((response) => response.json())
       .then((data) => setVenta(data))
@@ -149,13 +194,13 @@ function ListaVenta() {
   useEffect(() => {
     fetch('http://localhost:5000/crud/readVenta')
       .then((response) => response.json())
-      .then((data) => setDescuentos(data))
+      .then((data) => setVenta(data))
       .catch((error) => console.error('Error al obtener las promociones:', error));
   }, []);
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>
@@ -236,78 +281,89 @@ function ListaVenta() {
 
 
 
+                <Col sm="12" md="6" lg="6">
+                    <FloatingLabel controlId="clientes" label="clientes">
+                      <Form.Select
+                        aria-label="clientes"
+                        value={formData.id_Cliente}
+                        onChange={(e) => 
+                          setFormData({
+                            id_Cliente: e.target.value
+                          })
+                        }
+                      >
+                        <option>Seleccione el cliente</option>
+                        {clientes.map((clientes) => (
+                          <option key={clientes.id_Cliente} value={clientes.id_Cliente}>
+                            {clientes.nombre}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
 
 
 
+
+                <Col sm="12" md="6" lg="6">
+                    <FloatingLabel controlId="vendedor" label="vendedor">
+                      <Form.Select
+                        aria-label="vendedor"
+                        value={formData.id_Vendedor}
+                        onChange={(e) => 
+                          setFormData({
+                            id_Vendedor: e.target.value
+                          })
+                        }
+                      >
+                        <option>Seleccione el Vendedor</option>
+                        {vendedor.map((vendedor) => (
+                          <option key={vendedor.id_Vendedor} value={vendedor.id_Vendedor}>
+                            {vendedor.nombre}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
 
 
 
 
                   <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="id_Cliente" label="Cliente">
-                    <Form.Select
-                      aria-label="Cliente"
-                      value={id_Cliente}
-                      onChange={(e) => setId_Cliente(e.target.value)}
-                      
-                    >
-                      <option>Seleccione el Cliente</option>
-                      {clientes.map((clientes) => (
-                        <option key={clientes.id_Cliente} value={clientes.id_Cliente}>
-                          {clientes.nombre}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </FloatingLabel>
-                </Col>
+                    <FloatingLabel controlId="cantidadProducto" label="cantidadProducto">
+                      <Form.Control 
+                      type="text" 
+                      placeholder="Ingrese la cantidad producto"
+                      value={formData.cantidadProducto}
+                      name="cantidadProducto"
+                      onChange={handleFormChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
 
+                
 
                 <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="id_Vendedor" label="Vendedor">
-                    <Form.Select
-                      aria-label="Vendedor"
-                      value={id_Vendedor}
-                      onChange={(e) => setId_Vendedor(e.target.value)}
-                    >
-                      <option>Seleccione el vendedor</option>
-                      {vendedor.map((vendedor) => (
-                        <option key={vendedor.id_Vendedor} value={vendedor.id_Vendedor}>
-                          {vendedor.nombre}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </FloatingLabel>
-                </Col>
+                    <FloatingLabel controlId="modopagos" label="modopagos">
+                      <Form.Select
+                        aria-label="modopagos"
+                        value={formData.id_ModoPago}
+                        onChange={(e) => 
+                          setFormData({
+                            id_ModoPago: e.target.value
+                          })
+                        }
+                      >
+                        <option>Seleccione el Modo de pago</option>
+                        {vendedor.map((modopagos) => (
+                          <option key={modopagos.id_ModoPago} value={modopagos.id_ModoPago}>
+                            {modopagos.Nombre_ModoPago}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
 
-
-             
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="cantidadProducto" label="Cantidad de Producto">
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese la cantidad de peoducto"
-                      value={cantidadProducto}
-                      onChange={(e) => setCantidadProducto(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-
-                <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="id_ModoPago" label="Nombre Modo Pago">
-                    <Form.Select
-                      aria-label="Nombre Modo Pagp"
-                      value={id_ModoPago}
-                      onChange={(e) => setId_Modopago(e.target.value)}
-                    >
-                      <option>Seleccione el modo de Pago</option>
-                      {modopago.map((modopagos) => (
-                        <option key={modopago.id_ModoPago} value={modopagos.id_ModoPago}>
-                          {modopagos.Nombre_ModoPago}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </FloatingLabel>
-                </Col>
 
 
                 <Col sm="12" md="6" lg="6">
@@ -323,64 +379,69 @@ function ListaVenta() {
                   </Col>
 
 
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="Estado" label="Estado Venta">
-                    <Form.Select 
-                      aria-label="Estado"
-                      value={Estado}
-                      onChange={(e) => setEstado(e.target.value)}
-                    >
-                      <option>Seleccione el Estado</option>
-                      <option value="Pendiente">Pendiente</option>
-                      <option value="Entregado">Entregado</option>
-                      <option value="EnProceso">En Proceso</option>
-                    </Form.Select>
-                  </FloatingLabel>
-                </Col>
+               
+                  <Col sm="12" md="6" lg="4">
+                    <FloatingLabel controlId="Estado" label="Estado">
+                      <Form.Select 
+                        aria-label="Estado"
+                        value={formData.Estado}
+                        onChange={handleFormChange}
+                        name="Estado"
+                      >
+                        <option>Seleccione el Estado de la venta</option>
+                         <option value="Pendiente">Pendiente</option>
+                          <option value="Entregado">Entregado</option>
+                           <option value="EnProceso">En Proceso</option>
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
 
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="TipoVentas" label="Tipo de Venta">
-                    <Form.Select 
-                      aria-label="TipoVentas"
-                      value={TipoVentas}
-                      onChange={(e) => setTipoVentas(e.target.value)}
-                    >
-                      <option>Seleccione el Tipo de Venta</option>
-                      <option value="Presencial">Presencial</option>
+
+
+                  
+                  <Col sm="12" md="6" lg="4">
+                    <FloatingLabel controlId="TipoVentas" label="TipoVentas">
+                      <Form.Select 
+                        aria-label="TipoVentas"
+                        value={formData.TipoVentas}
+                        onChange={handleFormChange}
+                        name="TipoVentas"
+                      >
+                        <option>Seleccione el tipo de venta</option>
+                          <option value="Presencial">Presencial</option>
                       <option value="EnLinea">En Linea</option>
-              
-                    </Form.Select>
-                  </FloatingLabel>
-                </Col>
-
-              
-
-
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="Direccion_Envio" label="Direccion Envio">
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese ela direccion de envio"
-                      value={Direccion_Envio}
-                      onChange={(e) => setDireccionEnvio(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
-
-
-                <Col sm="6" md="6" lg="6">
-                  <FloatingLabel controlId="Total_Venta" label="Total Venta">
-                    <Form.Control
-                      type="number"
-                      placeholder="Total de la venta"
-                      value={Total_Venta}
-                      onChange={(e) => setTotalVenta(e.target.value)}
-                    />
-                  </FloatingLabel>
-                </Col>
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
 
 
 
+
+
+                  <Col sm="12" md="6" lg="6">
+                    <FloatingLabel controlId="Direccion_Envio" label="Direccion_Envio">
+                      <Form.Control 
+                      type="text" 
+                      placeholder="Ingrese la Direccion de envio"
+                      value={formData.Direccion_Envio}
+                      name="Direccion_Envio"
+                      onChange={handleFormChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
+
+
+                  <Col sm="12" md="6" lg="6">
+                    <FloatingLabel controlId="Total_Venta" label="Total_Venta">
+                      <Form.Control 
+                      type="text" 
+                      placeholder="Ingrese el total de la venta"
+                      value={formData.Total_Venta}
+                      name="Total_Venta"
+                      onChange={handleFormChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
 
 
 

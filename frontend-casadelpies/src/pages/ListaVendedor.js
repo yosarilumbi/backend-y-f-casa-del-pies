@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
 
-function ListaVendedor() {
+function ListaVendedor({rol}) {
   const [vendedor, setVendedor] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedVendedor, setSelectedVendedor] = useState({});
@@ -11,6 +11,9 @@ function ListaVendedor() {
     telefono: '',
     nombre: '',
     apellido: '',
+    nombre_usuario: '',
+    contrasena: '',
+    rol: '',
 
   });
   const [searchQuery, setSearchQuery] = useState('');
@@ -50,6 +53,9 @@ function ListaVendedor() {
         telefono:vendedor.telefono,
         nombre:vendedor.nombre,
         apellido:vendedor.apellido,
+        nombre_usuario:vendedor.nombre_usuario,
+        contrasena:vendedor.contrasena,
+        rol:vendedor.rol,
     });
     setShowModal(true);
   };
@@ -120,7 +126,7 @@ function ListaVendedor() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>
@@ -149,6 +155,9 @@ function ListaVendedor() {
                 <th>Apellido</th>
                 <th>Direccion</th>
                 <th>Telefono</th>
+                <th>Nombre Usuario</th>
+                <th>Contraseña</th>
+                <th>Rol</th>
               
             
               </tr>
@@ -160,6 +169,9 @@ function ListaVendedor() {
                   <td>{vendedor.direccion}</td>
                   <td>{vendedor.telefono}</td>
                   <td>{vendedor.nombre}</td>
+                  <td>{vendedor.apellido}</td>
+                  <td>{vendedor.apellido}</td>
+                  <td>{vendedor.apellido}</td>
                   <td>{vendedor.apellido}</td>
                   <td>
                     <Button variant="primary" onClick={() => openModal(vendedor)}>Actualizar</Button>
@@ -231,6 +243,45 @@ function ListaVendedor() {
                       />
                     </FloatingLabel>
                   </Col>
+                  
+               <Col sm="12" md="12" lg="12">
+                   <FloatingLabel controlId="nombre_Usuario" label="Nombre Usuario ">
+                    <Form.Control 
+                       type="text" 
+                       placeholder="Ingrese su Nombre de usuario"
+                          name="nombre_Usuario"
+                          value={formData.nombre_Usuario}
+                          onChange={handleFormChange} 
+                             />
+                             </FloatingLabel>
+                             </Col>
+                             
+                             
+                             <Col sm="12" md="12" lg="12">
+                              <FloatingLabel controlId="contrasena" label="Contraseña">
+                                <Form.Control 
+                                 type="text" 
+                                 placeholder="Ingrese su contraseña"
+                                 name="contrasena"
+                                 value={formData.contrasena}
+                                 onChange={handleFormChange} 
+                                  />
+                                  </FloatingLabel>
+                                  </Col>
+                                  
+                                  
+                 <Col sm="12" md="12" lg="12">
+           <FloatingLabel controlId="rol" label="Rol">
+              <Form.Control 
+                type="text" 
+            placeholder="Ingrese su Rol"
+                   name="rol"
+            value={formData.rol}
+                    onChange={handleFormChange} 
+               />
+              </FloatingLabel>
+                     </Col>
+
 
                   
                 </Row>

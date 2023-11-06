@@ -759,14 +759,6 @@ router.delete('/deleteclientes/:id_Cliente', (req, res) => {
   });
 });
 
-
-
-
-
-
-
-
-
  // Ruta para leer registros
  router.get('/readdetalle', (req, res) => {
   // Utiliza la instancia de la base de datos pasada como parámetro
@@ -788,16 +780,16 @@ router.delete('/deleteclientes/:id_Cliente', (req, res) => {
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createDetalleVenta', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const { id_detalleVenta,id_Producto,cod_Venta,id_Categoria } = req.body;
+  const { id_detalleVenta,id_Producto,PrecioUnitario,TotalDetalle,cod_Venta } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!id_detalleVenta || !id_Producto || !cod_Venta || !id_Categoria) {
+  if (!id_detalleVenta || !id_Producto || !PrecioUnitario|| !TotalDetalle || !cod_Venta ) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO DetalleVenta (id_detalleVenta,id_Producto,cod_Venta,id_Categoria) VALUES (?, ?, ?, ?)`;
-  const values = [id_detalleVenta,id_Producto,cod_Venta,id_Categoria];
+  const sql = `INSERT INTO DetalleVenta (id_detalleVenta,id_Producto,PrecioUnitario,TotalDetalle,cod_Venta) VALUES (?, ?, ?, ?,?)`;
+  const values = [id_detalleVenta,id_Producto,PrecioUnitario,TotalDetalle,cod_Venta];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -890,16 +882,16 @@ router.get('/readVenta', (req, res) => {
 // Ruta para crear un nuevo registro con ID específico
 router.post('/createVentas', (req, res) => {
   // Recibe los datos del nuevo registro desde el cuerpo de la solicitud (req.body)
-  const {  id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta } = req.body;
+  const {  id_Cliente, id_Vendedor, cantidadProducto, id_ModoPago, fecha, Estado, TipoVentas, Direccion_Envio, Total_Venta } = req.body;
 
   // Verifica si se proporcionaron los datos necesarios
-  if (!id_Cliente|| !id_Vendedor|| !cantidadProducto || !id_ModoPago || !fecha || !Estado|| !TipoVentas || !DireccionEnvio || !TotalVenta) {
+  if (!id_Cliente|| !id_Vendedor|| !cantidadProducto || !id_ModoPago || !fecha || !Estado|| !TipoVentas || !Direccion_Envio || !Total_Venta) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   // Realiza la consulta SQL para insertar un nuevo registro con ID específico
-  const sql = `INSERT INTO Ventas (id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta  ) VALUES (?, ?, ?, ?, ?, ?,?,?,?)`;
-  const values = [id_Cliente, id_Vendedor,cantidadProducto,id_ModoPago, fecha, Estado, TipoVentas,DireccionEnvio,TotalVenta  ];
+  const sql = `INSERT INTO Ventas (id_Cliente, id_Vendedor, cantidadProducto, id_ModoPago, fecha, Estado, TipoVentas, Direccion_Envio, Total_Venta  ) VALUES (?, ?, ?, ?, ?, ?,?,?,?)`;
+  const values = [id_Cliente, id_Vendedor, cantidadProducto, id_ModoPago, fecha, Estado, TipoVentas, Direccion_Envio, Total_Venta  ];
 
   // Ejecuta la consulta
   db.query(sql, values, (err, result) => {
@@ -908,7 +900,7 @@ router.post('/createVentas', (req, res) => {
       res.status(500).json({ error: 'Error al insertar registro' });
     } else {
       // Devuelve el ID del nuevo registro como respuesta
-      res.status(201).json({ cod_Venta });
+      res.status(200).json({ text: '' });
     }
   });
 });
@@ -994,14 +986,14 @@ router.get('/readProductos', (req, res) => {
 
 // Ruta para crear un nuevo registro
 router.post('/createProductos', (req, res) => {
-  const {id_Categoria, nombre,descripcion,precio,id_Marca,id_Promociones} = req.body;
+  const {id_Categoria, nombre,descripcion,precio,id_Marca,id_Promociones,imagen} = req.body;
 
-  if (!id_Categoria||! nombre ||!descripcion ||!precio ||!id_Marca||!id_Promociones) {
+  if (!id_Categoria||! nombre ||!descripcion ||!precio ||!id_Marca||!id_Promociones ||!imagen) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
-  const sql = `INSERT INTO Productos (id_Categoria, Nombre,Descripcion,Precio,id_Marca,id_Promociones) VALUES (?,?,?,?,?,?)`;
-  const values = [id_Categoria, nombre,descripcion,precio,id_Marca,id_Promociones];
+  const sql = `INSERT INTO Productos (id_Categoria, Nombre,Descripcion,Precio,id_Marca,id_Promociones,imagen) VALUES (?,?,?,?,?,?,?)`;
+  const values = [id_Categoria, nombre,descripcion,precio,id_Marca,id_Promociones,imagen];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -1016,19 +1008,19 @@ router.post('/createProductos', (req, res) => {
 // Ruta para actualizar un registro existente por ID
 router.put('/updateProducto/:id_Producto', (req, res) => {
   const id_Producto = req.params.id_Producto;
-  const { id_Categoria, nombre, descripcion, precio, id_Marca,id_Promociones } = req.body;
+  const { id_Categoria, nombre, descripcion, precio, id_Marca,id_Promociones,imagen } = req.body;
 
-  if (!id_Categoria || !nombre || !descripcion || !precio || !id_Marca|| !id_Promociones) {
+  if (!id_Categoria || !nombre || !descripcion || !precio || !id_Marca|| !id_Promociones ||!imagen) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
   const sql = `
     UPDATE Productos
-    SET id_Categoria=?, nombre=?, descripcion=?, precio=?, id_Marca=?,id_Promociones =?
+    SET id_Categoria=?, nombre=?, descripcion=?, precio=?, id_Marca=?,id_Promociones =?,imagen=?
     WHERE id_Producto= ?
   `;
 
-  const values = [id_Categoria, nombre, descripcion, precio, id_Marca,id_Promociones, id_Producto];
+  const values = [id_Categoria, nombre, descripcion, precio, id_Marca,id_Promociones, id_Producto,imagen];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -1295,16 +1287,17 @@ router.delete('/deleteVendedorUsuario/:id_Usuario', (req, res) => {
       telefono,
       nombre,
       apellido,
-      nombre_Usuario,  // Agregar el campo nombre_Usuario
-      contrasena      // Agregar el campo contrasena
+      nombre_Usuario, 
+      contrasena,
+      rol
     } = req.body;
   
-    if (!direccion || !telefono || !nombre || !apellido || !nombre_Usuario || !contrasena) {
+    if (!direccion || !telefono || !nombre || !apellido || !nombre_Usuario || !contrasena || !rol) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
   
-    const sqlUsuario = 'INSERT INTO Usuario (nombre_Usuario, contrasena) VALUES (?, ?)';
-    const valuesUsuario = [nombre_Usuario, contrasena];
+    const sqlUsuario = 'INSERT INTO Usuario (nombre_Usuario, contrasena, rol) VALUES (?, ?, ?)';
+    const valuesUsuario = [nombre_Usuario, contrasena, rol];
   
     db.query(sqlUsuario, valuesUsuario, (err, result) => {
       if (err) {

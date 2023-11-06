@@ -3,7 +3,7 @@ import { Form, Row, Col, Container, FloatingLabel, Card, Button } from 'react-bo
 import Header from '../components/Header';
 import '../App.css';
 
-function ModoPagos() {
+function ModoPagos({rol}) {
 
   // Crear un estado para cada campo del formulario
   const [Nombre_ModoPago, setNombreModoPago] = useState('');
@@ -46,7 +46,7 @@ function ModoPagos() {
 
   return(
     <div>
-      <Header />
+      <Header rol={ rol}/>
       
       <Container>
         <Card className="mt-3">

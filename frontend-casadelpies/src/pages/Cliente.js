@@ -10,9 +10,9 @@ function Cliente() {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [historialdecompras, setHistorialDeCompras] = useState('')
-  const [direccionEnvio, setDireccionEnvio] = useState('');;
   const [nombre_Usuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [rol, setRol] = useState('');
   
 
   // Función para manejar el envío del formulario
@@ -25,9 +25,9 @@ function Cliente() {
       nombre,
       apellido,
       historialdecompras,
-      direccionEnvio,
       nombre_Usuario,  // Agregar el campo nombre_Usuario
-      contrasena      // Agregar el campo contrasena
+      contrasena,      // Agregar el campo contrasena
+      rol
     };
 
     try {
@@ -48,9 +48,9 @@ function Cliente() {
         setNombre('');
         setApellido('');
         setHistorialDeCompras('');
-        setDireccionEnvio('');
         setNombreUsuario(''); 
-        setContrasena('');   
+        setContrasena(''); 
+        setRol('');   
 
       } else {
         alert('Error al registrar el cliente');
@@ -107,17 +107,6 @@ function Cliente() {
 
 
                 <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="direccionEnvio" label="Dirección">
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Ingrese la dirección"
-                      value={direccionEnvio}
-                      onChange={(e) => setDireccionEnvio(e.target.value)} 
-                    />
-                  </FloatingLabel>
-                </Col>
-
-                <Col sm="12" md="12" lg="12">
                   <FloatingLabel controlId="historialdecompras" label="Historial de compras">
                     <Form.Control 
                       type="text" 
@@ -147,6 +136,17 @@ function Cliente() {
                       placeholder="Ingrese su contraseña"
                       value={contrasena}
                       onChange={(e) => setContrasena(e.target.value)}
+                    />
+                  </FloatingLabel>
+                </Col>
+
+                <Col sm="12" md="6" lg="6">
+                  <FloatingLabel controlId="rol" label="Rol">
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Ingrese el rol"
+                      value={rol}
+                      onChange={(e) => setRol(e.target.value)} 
                     />
                   </FloatingLabel>
                 </Col>

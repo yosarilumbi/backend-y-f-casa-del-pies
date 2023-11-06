@@ -3,7 +3,7 @@ import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel } 
 import Header from '../components/Header';
 import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
-function ListaProducto() {
+function ListaProducto({rol}) {
   const [productos, setProductos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState({});
@@ -14,7 +14,24 @@ function ListaProducto() {
     precio: '',
     id_Marca: '',
     id_Promociones: '',
+    imagen: '',
   });
+
+  const handleImagenChange = (event) => {
+    const file = event.target.files[0]; // Obtener el primer archivo seleccionado
+  
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result; // Obtener la imagen en formato base64
+      setFormData({
+        ...formData,
+        imagen: base64String
+      });
+    }; 
+    if (file) {
+      reader.readAsDataURL(file); // Lee el contenido del archivo como base64
+    }
+  };
 
   // Función para abrir el modal y pasar los datos del producto seleccionado
   const openModal = (producto) => {
@@ -27,6 +44,7 @@ function ListaProducto() {
       precio: producto.precio,
       id_Marca: producto.id_Marca,
       id_Promociones: producto.id_Promociones,
+      imagen:producto.imagen,
     });
     setShowModal(true);
   };
@@ -95,12 +113,12 @@ function ListaProducto() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>
           <Card.Title className="mb-3">Listado de productos</Card.Title>
-          <Table striped bordered hover>
+          <Table striped bordered hover responsive>
             <thead>
               <tr>
                 <th>ID</th>
@@ -110,6 +128,7 @@ function ListaProducto() {
                 <th>Precio</th>
                 <th>ID_Marca</th>
                 <th>ID_Promociones</th>
+                <th>Imagen</th>
               </tr>
             </thead>
             <tbody>
@@ -124,6 +143,13 @@ function ListaProducto() {
                     <td>{producto.id_Marca}</td>
                     <td>{producto.id_Categoria}</td>
                     <td>
+
+                    {/* Muestra la imagen en base64 */}
+                     <img src={producto.imagen} alt={producto.nombre} style={{ width: '50px' }} />
+                      </td>
+                       <td>
+
+                      
                       <Button variant="primary" onClick={() => openModal(producto)}><FaPencil/></Button>
                       <Button variant="danger" onClick={() => handleDelete(producto.id_Producto)}><FaTrashCan/></Button>
                     </td>
@@ -223,6 +249,22 @@ function ListaProducto() {
                       />
                     </FloatingLabel>
                   </Col>
+
+
+                  <Col sm="12" md="12" lg="12">
+                    <Form.Group controlId="imagen" className="" >
+                       <Form.Control 
+                       type="file" 
+                       accept=".jpg, .png, .jpeg"
+                       size="lg"
+                       name="imagen"
+                       onChange={handleImagenChange}
+                        />
+                        </Form.Group>
+                         </Col>
+
+
+
                 </Row>
               </Form>
             </Card.Body>

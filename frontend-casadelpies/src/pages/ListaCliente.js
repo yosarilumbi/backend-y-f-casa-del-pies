@@ -3,7 +3,7 @@ import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  }
 import Header from '../components/Header';
 import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
-function ListaCliente() {
+function ListaCliente({rol}) {
   const [clientes, setClientes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState({});
@@ -12,7 +12,9 @@ function ListaCliente() {
     nombre: '', 
     apellido: '',
     historialdecompras: '',
-    direccionEnvio: '',
+    nombre_Usuario: '',
+    contrasena: '',
+    rol: '',
   
 
   });
@@ -26,7 +28,10 @@ function ListaCliente() {
         nombre:clientes.nombre,
         apellido:clientes.apellido,
         historialdecompras:clientes.historialdecompras,
-        direccionEnvio:clientes.direccionEnvio,
+        nombre_Usuario:clientes.nombre_Usuario,
+        contrasena:clientes.contrasena,
+        rol:clientes.rol,
+
        
     });
     setShowModal(true);
@@ -70,9 +75,9 @@ function ListaCliente() {
       .catch((error) => console.error('Error al actualizar el registro:', error));
   };
 
-  // Función para eliminar un docente
+  // Función para eliminar un cliente
   const handleDelete = (id_Usuario) => {
-    const confirmation = window.confirm('¿Seguro que deseas eliminar este vendedor?');
+    const confirmation = window.confirm('¿Seguro que deseas eliminar este cliente?');
     if (confirmation) {
       // Realiza la solicitud DELETE al servidor para eliminar el docente
       fetch(`http://localhost:5000/crud/deleteClienteUsuario/${id_Usuario}`, {
@@ -98,7 +103,7 @@ function ListaCliente() {
 
   return (
     <div>
-      <Header />
+      <Header rol={ rol}/>
 
       <Card className="m-3">
         <Card.Body>
@@ -111,7 +116,9 @@ function ListaCliente() {
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Historial de Compras</th>
-                <th>Direccion de Envio</th>
+                <th>Nombre Usuario</th>
+                <th>Contraseña</th>
+                <th>Rol</th>
               
               
             
@@ -125,7 +132,9 @@ function ListaCliente() {
                   <td>{clientes.nombre}</td>
                   <td>{clientes.apellido}</td>
                   <td>{clientes.historialdecompras}</td>
-                  <td>{clientes.direccionEnvio}</td>
+                  <td>{clientes.nombre_Usuario}</td>
+                  <td>{clientes.contrasena}</td>
+                  <td>{clientes.rol}</td>
                  
                  
                   <td>
@@ -146,7 +155,7 @@ function ListaCliente() {
         <Modal.Body>
           <Card className="mt-3">
             <Card.Body>
-              <Card.Title>Registro de Vendedor</Card.Title>
+              <Card.Title>Clientes</Card.Title>
               <Form className="mt-3">
                 <Row className="g-3">
 
@@ -203,12 +212,37 @@ function ListaCliente() {
                   </Col>
 
                   <Col sm="12" md="12" lg="12">
-                    <FloatingLabel controlId="direccionEnvio" label="Dirección de Envio ">
+                    <FloatingLabel controlId="nombre_Usuario" label="Nombre Usuario ">
                       <Form.Control 
                         type="text" 
-                        placeholder="Ingrese su dirección"
-                        name="direccionEnvio"
-                        value={formData.direccionEnvio}
+                        placeholder="Ingrese su Nombre de usuario"
+                        name="nombre_Usuario"
+                        value={formData.nombre_Usuario}
+                        onChange={handleFormChange} 
+                      />
+                    </FloatingLabel>
+                  </Col>
+
+
+                  <Col sm="12" md="12" lg="12">
+                    <FloatingLabel controlId="contrasena" label="Contraseña">
+                      <Form.Control 
+                        type="text" 
+                        placeholder="Ingrese su contraseña"
+                        name="contrasena"
+                        value={formData.contrasena}
+                        onChange={handleFormChange} 
+                      />
+                    </FloatingLabel>
+                  </Col>
+
+                  <Col sm="12" md="12" lg="12">
+                    <FloatingLabel controlId="rol" label="Rol">
+                      <Form.Control 
+                        type="text" 
+                        placeholder="Ingrese su Rol"
+                        name="rol"
+                        value={formData.rol}
                         onChange={handleFormChange} 
                       />
                     </FloatingLabel>
