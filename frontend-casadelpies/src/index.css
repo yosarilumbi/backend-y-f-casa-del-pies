@@ -5,9 +5,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
+background-image: url('./Imagenes/Captura_de_pantalla_2023-11-08_091550-removebg-preview\ \(1\).png');
+background-size:cover;
+background-position: center;
+background-repeat: no-repeat;
+background-position-y: 10px;
+color: rgb(217, 6, 6);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

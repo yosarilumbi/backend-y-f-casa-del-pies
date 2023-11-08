@@ -273,14 +273,6 @@ function ListaVenta({rol}) {
 
          
 
-
-
-
-
-
-
-
-
                 <Col sm="12" md="6" lg="6">
                     <FloatingLabel controlId="clientes" label="clientes">
                       <Form.Select

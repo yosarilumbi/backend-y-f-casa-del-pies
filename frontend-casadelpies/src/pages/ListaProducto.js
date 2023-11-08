@@ -14,7 +14,7 @@ function ListaProducto({rol}) {
     precio: '',
     id_Marca: '',
     id_Promociones: '',
-    imagen: '',
+    imagen: ''
   });
 
   const handleImagenChange = (event) => {
@@ -44,7 +44,7 @@ function ListaProducto({rol}) {
       precio: producto.precio,
       id_Marca: producto.id_Marca,
       id_Promociones: producto.id_Promociones,
-      imagen:producto.imagen,
+      imagen:producto.imagen
     });
     setShowModal(true);
   };
@@ -141,7 +141,7 @@ function ListaProducto({rol}) {
                     <td>{producto.descripcion}</td>
                     <td>{producto.precio}</td>
                     <td>{producto.id_Marca}</td>
-                    <td>{producto.id_Categoria}</td>
+                    <td>{producto.id_Promociones}</td>
                     <td>
 
                     {/* Muestra la imagen en base64 */}

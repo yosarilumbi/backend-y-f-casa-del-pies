@@ -156,7 +156,7 @@ function Producto({rol}) {
                 <Col sm="12" md="6" lg="6">
                   <FloatingLabel controlId="precio" label="Precio">
                     <Form.Control
-                      type="text"
+                      type="number"
                       placeholder="Ingrese el precio del producto"
                       value={precio}
                       onChange={(e) => setPrecio(e.target.value)}

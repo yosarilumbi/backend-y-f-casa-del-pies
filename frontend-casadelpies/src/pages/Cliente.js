@@ -3,7 +3,7 @@ import { Form, Row, Col, Container, FloatingLabel, Card, Button } from 'react-bo
 import Header from '../components/Header';
 import '../App.css';
 
-function Cliente() {
+function Cliente({userRol}) {
 
   // Crear un estado para cada campo del formulario
   const [cedula, setCedula] = useState('');
@@ -12,8 +12,24 @@ function Cliente() {
   const [historialdecompras, setHistorialDeCompras] = useState('')
   const [nombre_Usuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [rol, setRol] = useState('');
+  const rol = 'clientes';
   
+
+  const validarCedula = (cedula) => {
+    // La cédula debe tener 16 dígitos
+    if (cedula.length !== 16) {
+      return false;
+    }
+  
+    // La cédula debe ser un número
+    if (!/^\d+$/.test(cedula)) {
+      return false;
+    }
+  
+    // La cédula debe ser única
+    // (Esta validación se puede realizar enviando una solicitud HTTP al backend para verificar si la cédula ya existe)
+    return true;
+  };
 
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
@@ -50,7 +66,7 @@ function Cliente() {
         setHistorialDeCompras('');
         setNombreUsuario(''); 
         setContrasena(''); 
-        setRol('');   
+        
 
       } else {
         alert('Error al registrar el cliente');
@@ -63,7 +79,7 @@ function Cliente() {
 
   return(
     <div>
-      <Header />
+      <Header rol={userRol} />
       
       <Container>
         <Card className="mt-3">
@@ -140,16 +156,7 @@ function Cliente() {
                   </FloatingLabel>
                 </Col>
 
-                <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="rol" label="Rol">
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Ingrese el rol"
-                      value={rol}
-                      onChange={(e) => setRol(e.target.value)} 
-                    />
-                  </FloatingLabel>
-                </Col>
+              
 
               </Row>
               <div className="center-button">

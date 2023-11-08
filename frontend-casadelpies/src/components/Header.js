@@ -85,6 +85,17 @@ function Header({ rol }) {
                     </NavDropdown.Item>
                   </NavDropdown>
 
+                  <NavDropdown title="DetalleVenta" id="detalleventa">
+                    <NavDropdown.Item>
+                      <Link to="/detalleventas" className="link-unstyled">Registrar Detalle Ventas</Link>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item>
+                      <Link to="/ListaDetalle" className="link-unstyled">Listar Ventas</Link>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+
+
                   <NavDropdown title="Modo Pagos" id="modopagos">
                     <NavDropdown.Item>
                       <Link to="/modopagos" className="link-unstyled">Registrar Modo De Pagos</Link>
@@ -125,6 +136,10 @@ function Header({ rol }) {
                     </NavDropdown.Item>
                   </NavDropdown>
 
+                  <Nav.Link>
+                    <Link to="/estadisticas" className="link-unstyled">Estadísticas</Link>
+                  </Nav.Link>
+
                   <NavDropdown title="Descuentos" id="descuentos">
                     <NavDropdown.Item>
                       <Link to="/descuento" className="link-unstyled">Registrar Descuento</Link>
@@ -138,6 +153,8 @@ function Header({ rol }) {
                   <Nav.Link>
                     <Link to="/galeria" className="link-unstyled">Galeria</Link>
                   </Nav.Link>
+
+
 
                 </Nav>
               </Navbar.Collapse>
@@ -310,6 +327,17 @@ function Header({ rol }) {
                     <Link to="/ListaVenta" className="link-unstyled">Listar Ventas</Link>
                   </NavDropdown.Item>
                 </NavDropdown>
+
+                
+                <NavDropdown title="DetalleVenta" id="detalleventa">
+                    <NavDropdown.Item>
+                      <Link to="/detalleventas" className="link-unstyled">Registrar Detalle Ventas</Link>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item>
+                      <Link to="/ListaDetalle" className="link-unstyled">Listar Ventas</Link>
+                    </NavDropdown.Item>
+                  </NavDropdown>
 
                 <NavDropdown title="Modo Pagos" id="modopagos">
                   <NavDropdown.Item>

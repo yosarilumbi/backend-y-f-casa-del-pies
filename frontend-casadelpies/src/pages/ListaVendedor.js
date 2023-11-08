@@ -11,7 +11,7 @@ function ListaVendedor({rol}) {
     telefono: '',
     nombre: '',
     apellido: '',
-    nombre_usuario: '',
+    nombre_Usuario: '',
     contrasena: '',
     rol: '',
 
@@ -81,7 +81,7 @@ function ListaVendedor({rol}) {
   // Función para enviar el formulario de actualización
   const handleUpdate = () => {
     // Realiza la solicitud PUT al servidor para actualizar el registro
-    fetch(`http://localhost:5000/crud/updateVendedor/${selectedVendedor.ID_Vendedor}`, {
+    fetch(`http://localhost:5000/crud/updateVendedor/${selectedVendedor.id_Vendedor}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ function ListaVendedor({rol}) {
       .catch((error) => console.error('Error al actualizar el registro:', error));
   };
 
-  // Función para eliminar un docente
+  // Función para eliminar un 
   const handleDelete = (id_Usuario) => {
     const confirmation = window.confirm('¿Seguro que deseas eliminar este vendedor?');
     if (confirmation) {
@@ -164,15 +164,15 @@ function ListaVendedor({rol}) {
             </thead>
             <tbody>
               {filteredVendedor.map((vendedor) => (
-                <tr key={vendedor.ID_Vendedor}>
-                  <td>{vendedor.ID_Vendedor}</td>
-                  <td>{vendedor.direccion}</td>
-                  <td>{vendedor.telefono}</td>
+                <tr key={vendedor.id_Vendedor}>
+                  <td>{vendedor.id_Vendedor}</td>
                   <td>{vendedor.nombre}</td>
                   <td>{vendedor.apellido}</td>
-                  <td>{vendedor.apellido}</td>
-                  <td>{vendedor.apellido}</td>
-                  <td>{vendedor.apellido}</td>
+                  <td>{vendedor.direccion}</td>
+                  <td>{vendedor.telefono}</td>
+                  <td>{vendedor.nombre_Usuario}</td>
+                  <td>{vendedor.contrasena}</td>
+                  <td>{vendedor.rol}</td>
                   <td>
                     <Button variant="primary" onClick={() => openModal(vendedor)}>Actualizar</Button>
                     <Button variant="danger" onClick={() => handleDelete(vendedor.id_Usuario)}>Eliminar</Button>
