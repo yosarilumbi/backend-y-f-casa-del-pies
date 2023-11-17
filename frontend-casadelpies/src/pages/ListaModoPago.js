@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 function ListaModoPago({rol}) {
   const [modopagos, setModoPagos] = useState([]);
@@ -109,8 +110,8 @@ function ListaModoPago({rol}) {
                   <td>{modopagos.id_ModoPago}</td>
                   <td>{modopagos.Nombre_ModoPago}</td>
                   <td>
-                    <Button variant="primary" onClick={() => openModal(modopagos)}>Actualizar</Button>
-                    <Button variant="danger" onClick={() => handleDelete(modopagos.id_ModoPago)}>Eliminar</Button>
+                    <Button variant="primary" onClick={() => openModal(modopagos)}><FaPencil/></Button>
+                    <Button variant="danger" onClick={() => handleDelete(modopagos.id_ModoPago)}><FaTrashCan/></Button>
                   </td>
                 </tr>
               ))}
@@ -124,7 +125,7 @@ function ListaModoPago({rol}) {
           <Modal.Title>Actualizar Modo Pagos</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className="mt-3">
+          <Card className="espaciado">
             <Card.Body>
               <Card.Title>Modo Pago</Card.Title>
               <Form className="mt-3">

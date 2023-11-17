@@ -6,7 +6,7 @@ import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 function ListaMarcas({rol}) {
   const [marcas, setMarcas] = useState([]); // Change variable name to 'marcas'
   const [showModal, setShowModal] = useState(false);
-  const [selectedMarca, setSelectedMarca] = useState({}); // Change variable name to 'selectedMarca'
+  const [selectedMarcas, setSelectedMarca] = useState({}); // Change variable name to 'selectedMarca'
   const [formData, setFormData] = useState({
     nombre_Marca: '',
   });
@@ -18,8 +18,8 @@ function ListaMarcas({rol}) {
       .catch((error) => console.error('Error al obtener las marcas:', error)); // Update error message
   };
 
-  const openModal = (marca) => {
-    setSelectedMarca(marca);
+  const openModal = (marcas) => {
+    setSelectedMarca(marcas);
     setShowModal(true);
   };
 
@@ -31,7 +31,7 @@ function ListaMarcas({rol}) {
   };
 
   const handleUpdate = () => {
-    fetch(`http://localhost:5000/crud/updateMarca/${selectedMarca.id_Marca}`, {
+    fetch(`http://localhost:5000/crud/updatemarcas/${selectedMarcas.id_Marca}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -43,6 +43,7 @@ function ListaMarcas({rol}) {
           setShowModal(false);
           loadMarcas();
         }
+        
       })
       .catch((error) => console.error('Error al actualizar el registro:', error));
   };
@@ -70,7 +71,7 @@ function ListaMarcas({rol}) {
     <div>
       <Header rol={ rol}/>
 
-      <Card className="m-3">
+      <Card className="espaciado">
         <Card.Body>
           <Card.Title className="mb-3">Listado de Marcas</Card.Title>
           <Table striped bordered hover>
@@ -81,13 +82,13 @@ function ListaMarcas({rol}) {
               </tr>
             </thead>
             <tbody>
-              {marcas.map((marca) => (
-                <tr key={marca.id_Marca}>
-                  <td>{marca.id_Marca}</td>
-                  <td>{marca.nombre_Marca}</td>
+              {marcas.map((marcas) => (
+                <tr key={marcas.id_Marca}>
+                  <td>{marcas.id_Marca}</td>
+                  <td>{marcas.nombre_Marca}</td>
                   <td>
-                  <Button variant="primary" onClick={() => openModal(marca)}><FaPencil/></Button>
-                 <Button variant="danger" onClick={() => handleDelete(marca.id_Marca)}><FaTrashCan/></Button>
+                  <Button variant="primary" onClick={() => openModal(marcas)}><FaPencil/></Button>
+                 <Button variant="danger" onClick={() => handleDelete(marcas.id_Marca)}><FaTrashCan/></Button>
                   </td>
                 </tr>
               ))}
@@ -101,7 +102,7 @@ function ListaMarcas({rol}) {
           <Modal.Title>Actualizar Marca</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className="mt-3">
+          <Card className="espaciado">
             <Card.Body>
               <Card.Title>Marca</Card.Title>
               <Form className="mt-3">

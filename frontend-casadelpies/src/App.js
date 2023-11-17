@@ -14,9 +14,8 @@ import Producto from'./pages/Producto';
 import ListaProducto from './pages/ListaProducto';
 import Descuento from './pages/Descuento';
 import ListaDescuento from './pages/ListaDescuento';
-import Ventas from './pages/Ventas';
+import Venta from './pages/Venta';
 import ListaVenta from './pages/ListaVenta';
-import DetalleVenta from './pages/DetalleVenta';
 import Usuario from './pages/Usuario';
 import ListaUsuario from './pages/ListaUsuario';
 import Vendedor from './pages/Vendedor';
@@ -48,9 +47,8 @@ function App() {
         <Route path="/ListaProducto" element={<ListaProducto rol={userRol}/>} />
         <Route path="/descuento" element={<Descuento rol={userRol}/>} />
         <Route path="/listaDescuento" element={<ListaDescuento rol={userRol}/>} />
-        <Route path="/Ventas" element={<Ventas rol={userRol}/>} />
+        <Route path="/Venta" element={<Venta rol={userRol}/>} />
         <Route path="/ListaVenta" element={<ListaVenta rol={userRol}/>} />
-        <Route path="/DetalleVenta" element={<DetalleVenta rol={userRol}/>} />
         <Route path="/Usuario" element={<Usuario rol={userRol}/>} />
         <Route path="/ListaUsuario" element={<ListaUsuario rol={userRol}/>} />
         <Route path="/vendedor" element={<Vendedor userRol={userRol}/>} />

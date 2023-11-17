@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaTrashCan, FaPencil } from 'react-icons/fa6';
 
 function ListaVendedor({rol}) {
   const [vendedor, setVendedor] = useState([]);
@@ -98,6 +99,8 @@ function ListaVendedor({rol}) {
       .catch((error) => console.error('Error al actualizar el registro:', error));
   };
 
+  
+
   // Función para eliminar un 
   const handleDelete = (id_Usuario) => {
     const confirmation = window.confirm('¿Seguro que deseas eliminar este vendedor?');
@@ -174,8 +177,8 @@ function ListaVendedor({rol}) {
                   <td>{vendedor.contrasena}</td>
                   <td>{vendedor.rol}</td>
                   <td>
-                    <Button variant="primary" onClick={() => openModal(vendedor)}>Actualizar</Button>
-                    <Button variant="danger" onClick={() => handleDelete(vendedor.id_Usuario)}>Eliminar</Button>
+                    <Button variant="primary" onClick={() => openModal(vendedor)}><FaPencil/></Button>
+                    <Button variant="danger" onClick={() => handleDelete(vendedor.id_Usuario)}><FaTrashCan/></Button>
                   </td>
                 </tr>
               ))}
@@ -189,7 +192,7 @@ function ListaVendedor({rol}) {
           <Modal.Title>Actualizar Vendedor</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className="mt-3">
+        <Card className="espaciado">
             <Card.Body>
               <Card.Title>Registro de Vendedor</Card.Title>
               <Form className="mt-3">

@@ -50,7 +50,7 @@ function Categorias({rol}) {
       <Header rol={ rol}/>
       
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registro de Categorias</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
@@ -62,7 +62,7 @@ function Categorias({rol}) {
                       type="text"
                       placeholder="Ingrese el nombre de la categoria"
                       value={nombre_C}
-                      onChange={(e) => setNombreCategoria(e.target.value)}
+                      onChange={(e) => setNombreCategoria(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>
@@ -73,7 +73,7 @@ function Categorias({rol}) {
                       type="text"
                       placeholder="Ingrese Descripcion de la categoria"
                       value={descripcion}
-                      onChange={(e) => setDescripcion(e.target.value)}
+                      onChange={(e) => setDescripcion(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>

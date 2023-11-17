@@ -1,95 +1,108 @@
-import React, { useEffect, useState } from 'react';  // Importación de React, useEffect y useState desde 'react'
-import Header from '../components/Header';  // Importación del componente Header desde la ruta '../components/Header'
-import { Button, Row, Col, Card, Container } from 'react-bootstrap';  // Importación de componentes específicos desde 'react-bootstrap'
-import jsPDF from 'jspdf';  // Importación de jsPDF para la generación de documentos PDF
-import Chart from 'chart.js/auto';  // Importación de Chart.js para gráficos
-import '../App.css';  // Importación de estilos CSS desde '../styles/App.css'
+import React, { useEffect, useState } from 'react';  
+import Header from '../components/Header'; 
+import { Button, Row, Col, Card, Container } from 'react-bootstrap';  
+import jsPDF from 'jspdf';  
+import Chart from 'chart.js/auto';
+import '../App.css';  
+import Footer from '../components/Footer';
+import html2canvas from 'html2canvas';
 
 
-//Asegúrate de instalar jsPDF en tu proyecto si aún no lo has hecho
-//  npm install jspdf
-//Documentación:  https://github.com/parallax/jsPDF
 
-//Asegúrate de instalar Chart.js en tu proyecto si aún no lo has hecho
-//  npm install chart.js
-//Documentación:  https://www.chartjs.org/docs/latest/
-
-
-//Documentacion de react-bootstrap en caso de querer emplear otro componente en su intefaz
-//  https://react-bootstrap.netlify.app/
-
-
-function Estadisticas({ rol }) {  // Declaración del componente Estadisticas con el argumento 'rol'
-
-  const [ventas, setVentas] = useState([]);  // Declaración del estado 'productos' y su función 'setProductos' a través de useState, con un valor inicial de un array vacío
-  const [myChart, setMyChart] = useState(null);  // Declaración del estado 'myChart' y su función 'setMyChart' a través de useState, con un valor inicial de 'null'
+function Estadisticas({ rol }) { 
+  const [productos, setProductos] = useState([]);
+  const [myChart, setMyChart] = useState(null);
+  const [precio,setPrecio] = useState ([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/crud/readVenta')  // Realiza una solicitud GET al servidor para obtener productos
-      .then((response) => response.json())  // Convierte la respuesta a formato JSON
-      .then((data) => setVentas(data))  // Almacena los productos en el estado 'productos'
-      .catch((error) => console.error('Error al obtener las ventas:', error));  // Manejo de errores en caso de fallar la solicitud
-  }, []);  // Se ejecuta esta función solo una vez al cargar el componente
+    fetch('http://localhost:5000/crud/readProductos')  
+      .then((response) => response.json()) 
+      .then((data) => setProductos(data)) 
+      .catch((error) => console.error('Error al obtener los productos:', error)); 
+  }, []); 
 
   useEffect(() => {
-    if (ventas.length > 0) {  // Si hay productos disponibles
-      const ctx = document.getElementById('myChart');  // Obtiene el elemento canvas con el ID 'myChart'
+    if (productos.length > 0) { 
+      const ctx = document.getElementById('myChart'); 
 
       if (myChart !== null) {
-        myChart.destroy(); // Destruye el gráfico existente antes de crear uno nuevo para evitar conflictos
+        myChart.destroy(); 
       }
 
-      const Total_Venta = ventas.map((ventas) => ventas.Total_Venta);  // Extrae el total de los productos
-      const cantidadProducto = ventas.map((ventas) => ventas.cantidadProducto);  // Extrae las cantidad de producto
+      const nombresProductos = productos.map((producto) => producto.nombre);
+      const precio = productos.map((producto) => producto.precio);
 
-      const almacen = new Chart(ctx, {  // Crea un nuevo gráfico de tipo 'bar' con Chart.js y lo asigna al elemento canvas
-        type: 'bar',
+      const almacen = new Chart(ctx, { 
+        type: 'doughnut',
         data: {
-          labels:Total_Venta,  // Asigna los total de venta como etiquetas para el eje X
+          labels: nombresProductos,
           datasets: [{
-            label: 'Cantidad Producto',  // Etiqueta para la leyenda del gráfico
-            data: Total_Venta,  // Asigna las cantidades de productos para la visualización
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',  // Define el color de fondo de las barras
-            borderColor: 'rgba(54, 162, 235, 1)',  // Define el color del borde de las barras
-            borderWidth: 1  // Define el ancho del borde de las barras
+            label: 'Precio',
+            data: precio,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',  
+            borderColor: 'rgba(54, 162, 235, 1)',  
+            borderWidth: 1 
           }]
         },
         options: {
           scales: {
             y: {
-              beginAtZero: true  // Comienza el eje Y desde cero
+              beginAtZero: true 
             }
           }
         }
       });
-      setMyChart(almacen); // Guarda la referencia al nuevo gráfico en el estado 'myChart'
+      setMyChart(almacen);
     }
-  }, [ventas]);  // Se ejecuta cada vez que hay cambios en 'productos'
+  }, [productos]);  
 
   const generarReporteAlmacen = () => {
-    fetch('http://localhost:5000/crud/readVenta')  // Realiza una solicitud GET al servidor para obtener productos
-      .then((response) => response.json())  // Convierte la respuesta a formato JSON
-      .then((ventas) => {
-        const doc = new jsPDF();  // Crea un nuevo documento PDF con jsPDF
-        let y = 15; // Posición inicial en el eje Y dentro del documento PDF
+    fetch('http://localhost:5000/crud/readProductos') 
+      .then((response) => response.json())  
+      .then((productos) => {
+        const doc = new jsPDF();  
+        let y = 15;
 
-        doc.text("Reporte de Estado de Almacén", 20, 10);  // Agrega un título al documento PDF
+        doc.text("Reporte de Estado de Almacén", 20, 10);
 
-        ventas.forEach((ventas) => {  // Itera sobre los productos para generar el reporte
-          doc.text(`Nombre: ${ventas.Total_Venta}`, 20, y);  // Agrega el nombre del producto al documento PDF
-          doc.text(`Cantidad: ${ventas.cantidadProducto}`, 20, y + 10);  // Agrega la cantidad del producto al documento PDF
+        productos.forEach((producto) => {
+          doc.text(`Nombre: ${producto.nombre}`, 20, y);
+          doc.text(`Precio: ${producto.precio}`, 20, y + 10);
 
-          y += 30; // Incrementa la posición Y para el siguiente producto
-          if (y >= 280) {  // Si alcanza el final de la página, crea una nueva página
+
+          y += 30; 
+          if (y >= 280) {  
             doc.addPage();
-            y = 15; // Reinicia la posición Y en la nueva página
+            y = 15;
           }
         });
 
-        doc.save("reporte_almacen.pdf");  // Descarga el documento PDF con el nombre 'reporte_almacen.pdf'
+        doc.save("reporte_almacen.pdf"); 
       })
-      .catch((error) => console.error('Error al obtener los productos:', error));  // Manejo de errores en caso de fallar la solicitud
+      .catch((error) => console.error('Error al obtener los productos:', error)); 
   };
+
+// Definición de la función generarReporteAlmacenImg como una función asíncrona
+const generarReporteAlmacenImg = async () => {
+  try {
+  
+    const canvas = await html2canvas(document.getElementById('myChart'));
+    
+    const pdf = new jsPDF();
+   
+    const imgData = canvas.toDataURL('image/png');
+    
+    pdf.text("Reporte de Estado de Almacén", 20, 10);
+
+    pdf.addImage(imgData, 'PNG', 10, 20, 100, 100);
+   
+    pdf.save("reporte_almacen_con_grafico.pdf");
+  } catch (error) {
+  
+    console.error('Error al generar el reporte con imagen:', error);
+  }
+};
+
 
   return(
     <div>
@@ -97,7 +110,7 @@ function Estadisticas({ rol }) {  // Declaración del componente Estadisticas co
 
       <Container className="margen-contenedor">
 
-        <Row className="g-3">
+        <Row className="espaciado">
 
           <Col sm="6" md="6" lg="4">
             <Card>
@@ -115,11 +128,28 @@ function Estadisticas({ rol }) {  // Declaración del componente Estadisticas co
             </Card>
           </Col>
 
+          <Col sm="6" md="6" lg="4">
+            <Card>
+              <Card.Body>
+                <Card.Title>Estado del almacen</Card.Title>
+              </Card.Body>
+
+              <Card.Body>
+                <Button onClick={generarReporteAlmacenImg}>
+                  Generar reporte con imagen
+                </Button>
+              </Card.Body>
+
+            </Card>
+          </Col>
+
         </Row>
       </Container>
+
+      <Footer/>
 
     </div>
   );
 }
 
-export default Estadisticas;  // Exporta el componente Estadisticas para su uso en otras partes de la aplicación
+export default Estadisticas; 

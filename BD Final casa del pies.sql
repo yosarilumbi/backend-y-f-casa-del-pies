@@ -1,6 +1,11 @@
 CREATE DATABASE casadelpies1;
 USE casadelpies1;
 
+SELECT C.*, U.rol FROM clientes C 
+INNER JOIN Usuario U ON C.id_Usuario = U.id_Usuario;
+
+
+
 CREATE TABLE Categorias (
   id_Categoria Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nombre_C Varchar(30),
@@ -9,7 +14,7 @@ CREATE TABLE Categorias (
 
 CREATE TABLE Marcas (
   id_Marca Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nombre_Marca Varchar(60)
+  nombre_Marca Varchar(20)
 );
 
 CREATE TABLE ModoPagos (
@@ -27,10 +32,19 @@ CREATE TABLE PromocionesyDescuentos (
 );
 
 CREATE TABLE Usuario (
-  id_Usuario Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  id_Usuario Int NOT NULL PRIMARY KEY AUTO_INCREMENT UNIQUE,
   nombre_Usuario Varchar(30) NOT NULL,
   contrasena Varchar(16) NOT NULL,
   rol Varchar (20) NOT NULL
+);
+
+CREATE TABLE Clientes (
+  id_Cliente Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cedula Varchar  (16) UNIQUE,
+  nombre Varchar(30),
+  apellido Varchar(30),
+  historialdecompras Varchar(200),
+  id_Usuario Int UNIQUE
 );
 
 CREATE TABLE Vendedor (
@@ -42,14 +56,7 @@ CREATE TABLE Vendedor (
   id_Usuario Int UNIQUE
 );
 
-CREATE TABLE Clientes (
-  id_Cliente Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  cedula Varchar(16),
-  nombre Varchar(30),
-  apellido Varchar(30),
-  historialdecompras Varchar(200),
-  id_Usuario Int UNIQUE
-);
+
 
 CREATE TABLE Productos (
   id_Producto Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -58,31 +65,31 @@ CREATE TABLE Productos (
   descripcion Varchar(200),
   precio Decimal(12,2),
   id_Marca Int,
-  id_Promociones Int
+  id_Promociones Int,
+  imagen LONGTEXT
 );
 
 CREATE TABLE DetalleVenta (
+  id_detalleVenta Int,
   cod_Venta Int,
-  cantidad Int,
-  id_producto Int,
-  PrecioUnitario Int,
-  TotalDetalle int
+  cantidadProducto Int,
+  id_Producto Int
+ 
 );
 
 CREATE TABLE Ventas (
   cod_Venta Int NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_Cliente Int,
   id_Vendedor Int,
-  cantidadProducto Int,
   id_ModoPago Int,
   fecha Date,
   Estado Varchar(50),
   TipoVentas Varchar(20),
    Direccion_Envio Varchar(50),
-  Total_Venta Int,
-  
+  Total_Venta Int
 );
-
+  
+  
  CREATE TABLE bitacora (
  id_bitacora INT NOT NULL AUTO_INCREMENT,
  transaccion VARCHAR(10) NOT NULL,

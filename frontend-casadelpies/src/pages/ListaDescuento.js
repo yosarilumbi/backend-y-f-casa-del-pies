@@ -189,7 +189,7 @@ function ListaDescuento({rol}) {
           <Modal.Title>Actualizar Descuento</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className="mt-3">
+          <Card className="espaciado">
             <Card.Body>
               <Card.Title>Descuento</Card.Title>
               <Form className="mt-3">

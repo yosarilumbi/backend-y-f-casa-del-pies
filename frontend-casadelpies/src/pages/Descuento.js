@@ -42,7 +42,7 @@ function Descuento({rol}) {
         setFecha_Inicio('');
         setFecha_Fin('');
       } else {
-        alert('Error al registrar el descuento');
+        alert('Asegurese de Rellenar todos los campos necesarios');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -55,7 +55,7 @@ function Descuento({rol}) {
       <Header rol={ rol}/>
       
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registro de Descuento</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
@@ -78,7 +78,7 @@ function Descuento({rol}) {
                       type="text"
                       placeholder="Ingrese las condiciones"
                       value={condiciones}
-                      onChange={(e) => setCondiciones(e.target.value)}
+                      onChange={(e) => setCondiciones(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>

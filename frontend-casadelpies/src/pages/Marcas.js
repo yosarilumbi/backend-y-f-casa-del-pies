@@ -44,7 +44,7 @@ function Marcas({rol}) {
         setNombreMarca('');
         
       } else {
-        alert('Error al registrar marca');
+        alert('Error,Asegurese de Rellenar todos los campos');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -57,7 +57,7 @@ function Marcas({rol}) {
       <Header rol={ rol}/>
       
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registrar Marcas</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
@@ -69,7 +69,7 @@ function Marcas({rol}) {
                       type="text"
                       placeholder="Ingrese marcas"
                       value={nombre_Marca}
-                      onChange={(e) => setNombreMarca(e.target.value)}
+                      onChange={(e) => setNombreMarca(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>

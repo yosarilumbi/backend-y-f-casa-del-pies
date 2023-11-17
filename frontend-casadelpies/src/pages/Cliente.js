@@ -69,7 +69,7 @@ function Cliente({userRol}) {
         
 
       } else {
-        alert('Error al registrar el cliente');
+        alert('Asegurese de Rellenar todos los campos');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -82,7 +82,7 @@ function Cliente({userRol}) {
       <Header rol={userRol} />
       
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registrar Cliente</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
@@ -105,7 +105,7 @@ function Cliente({userRol}) {
                       type="text"
                       placeholder="Ingrese el nombre"
                       value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
+                      onChange={(e) => setNombre(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>
@@ -116,7 +116,7 @@ function Cliente({userRol}) {
                       type="text"
                       placeholder="Ingrese el apellido"
                       value={apellido}
-                      onChange={(e) => setApellido(e.target.value)}
+                      onChange={(e) => setApellido(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>
@@ -128,7 +128,7 @@ function Cliente({userRol}) {
                       type="text" 
                       placeholder="Ingrese el historial de compras" 
                       value={historialdecompras}
-                      onChange={(e) => setHistorialDeCompras(e.target.value)}
+                      onChange={(e) => setHistorialDeCompras(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>

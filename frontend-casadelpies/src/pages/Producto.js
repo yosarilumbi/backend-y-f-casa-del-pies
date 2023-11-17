@@ -72,7 +72,7 @@ function Producto({rol}) {
         setImagen('');
 
       } else {
-        alert('Error al registrar el producto');
+        alert('Asegurese de que todos los campos esten lleno');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
@@ -126,7 +126,7 @@ function Producto({rol}) {
       <Header rol={ rol}/>
 
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registrar Productos</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
@@ -137,7 +137,7 @@ function Producto({rol}) {
                       type="text"
                       placeholder="Ingrese el nombre del producto"
                       value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
+                      onChange={(e) => setNombre(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>
@@ -148,7 +148,7 @@ function Producto({rol}) {
                       type="text"
                       placeholder="Ingrese la Descripcion del producto"
                       value={descripcion}
-                      onChange={(e) => setDescripcion(e.target.value)} // Corregir el nombre de la función de estado
+                      onChange={(e) => setDescripcion(e.target.value.replace(/\d/g,''))} // Corregir el nombre de la función de estado
                     />
                   </FloatingLabel>
                 </Col>

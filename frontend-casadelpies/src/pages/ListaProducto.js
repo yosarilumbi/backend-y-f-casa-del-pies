@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel } from 'react-bootstrap';
 import Header from '../components/Header';
-import { FaTrashCan, FaPencil } from 'react-icons/fa6';
+import { FaRegPenToSquare,FaTrashCanArrowUp } from "react-icons/fa6";
 
 function ListaProducto({rol}) {
   const [productos, setProductos] = useState([]);
@@ -115,9 +115,9 @@ function ListaProducto({rol}) {
     <div>
       <Header rol={ rol}/>
 
-      <Card className="m-3">
+      <Card className="espaciado" responsive>
         <Card.Body>
-          <Card.Title className="mb-3">Listado de productos</Card.Title>
+          <Card.Title className="mb-3" responsive>Listado de productos</Card.Title >
           <Table striped bordered hover responsive>
             <thead>
               <tr>
@@ -150,8 +150,8 @@ function ListaProducto({rol}) {
                        <td>
 
                       
-                      <Button variant="primary" onClick={() => openModal(producto)}><FaPencil/></Button>
-                      <Button variant="danger" onClick={() => handleDelete(producto.id_Producto)}><FaTrashCan/></Button>
+                      <Button variant="primary" onClick={() => openModal(producto)}><FaRegPenToSquare/></Button>
+                      <Button variant="danger" onClick={() => handleDelete(producto.id_Producto)}><FaTrashCanArrowUp/></Button>
                     </td>
                   </tr>
                 ))
@@ -170,7 +170,7 @@ function ListaProducto({rol}) {
           <Modal.Title>Actualizar Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className="mt-3">
+          <Card className="espaciado">
             <Card.Body>
               <Card.Title>Producto</Card.Title>
               <Form className="mt-3">

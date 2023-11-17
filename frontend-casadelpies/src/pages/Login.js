@@ -65,7 +65,7 @@ const Login = ({ setRol }) => {
                       <Form.Control
                         placeholder="Ingrese su contraseña"
                         type="password"
-                        value={contrasena}
+                        value={contrasena} BiLowVision
                         onChange={(e) => setContrasena(e.target.value)}
                       />
                     </FloatingLabel>

@@ -1,33 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Container, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
+import { Table, Button, Card, Row, Col, Form, Modal, FloatingLabel  } from 'react-bootstrap';
 import Header from '../components/Header';
+import { FaRegPenToSquare,FaTrashCanArrowUp } from "react-icons/fa6";
 
-function ListaCategoria({rol}) {
+
+
+function ListaDescuento({rol}) {
   const [categorias, setCategorias] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedCategorias, setSelectedCategoria] = useState({});
+  const [selectedCategorias, setSelectedCategorias] = useState({});
   const [formData, setFormData] = useState({
-    id_Categoria: '',
     nombre_C: '',
     descripcion: '',
-   
+    
   });
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+
+  const filteredCategorias = categorias.filter((categorias) => { 
+    
+    if (categorias && categorias.nombre_C && categorias.descripcion ) {
+      // Convierte los valores de los campos a minúsculas para realizar una búsqueda insensible a mayúsculas y minúsculas
+      const nombre_C = categorias.nombre_C.toString().toLowerCase();
+      const descripcion = categorias.descripcion.toString().toLowerCase();
+      
+  
+      // Verifica si la cadena de búsqueda se encuentra en algún campo
+      return (
+        nombre_C.includes(searchQuery) ||
+        descripcion.includes(searchQuery) 
+        
+      );
+    }
+    return false; // Si algún valor está indefinido, no incluirlo en los resultados
+  });
+  
 
   // Función para abrir el modal y pasar los datos de la promoción seleccionada
   const openModal = (categorias) => {
-    setSelectedCategoria(categorias);
+    setSelectedCategorias(categorias);
 
-
+   
 
     setFormData({
-      id_Categoria: categorias.id_Categoria,
       nombre_C: categorias.nombre_C,
       descripcion: categorias.descripcion,
+      
     });
     setShowModal(true);
   };
 
-
+ 
 
   // Función para manejar cambios en el formulario
   const handleFormChange = (e) => {
@@ -42,7 +70,7 @@ function ListaCategoria({rol}) {
     fetch('http://localhost:5000/crud/readcategorias')
       .then((response) => response.json())
       .then((data) => setCategorias(data))
-      .catch((error) => console.error('Error al obtener los descuentos:', error));
+      .catch((error) => console.error('Error al obtener las Categorias:', error));
   };
 
 
@@ -59,8 +87,7 @@ function ListaCategoria({rol}) {
       .then((response) => {
         if (response.ok) {
           // La actualización fue exitosa, puedes cerrar el modal y refrescar la lista de categorias
-          setShowModal(false);
-          loadCategorias(); // Cargar la lista de categoria actualizada
+          loadCategorias(); // Cargar la lista de docentes actualizada
         }
       })
       .catch((error) => console.error('Error al actualizar el registro:', error));
@@ -84,7 +111,7 @@ function ListaCategoria({rol}) {
     }
   };
 
-  // Realiza una solicitud GET al servidor para obtener las categorias
+  // Realiza una solicitud GET al servidor para obtener las promociones
   useEffect(() => {
     fetch('http://localhost:5000/crud/readcategorias')
       .then((response) => response.json())
@@ -98,26 +125,41 @@ function ListaCategoria({rol}) {
 
       <Card className="m-3">
         <Card.Body>
-          <Card.Title className="mb-3">Listado de Categoria</Card.Title>
+          <Card.Title className="mb-3">Listado de Categorias</Card.Title>
+
+          
+          <Row className="mb-3">
+            <Col sm="6" md="6" lg="4">
+              <FloatingLabel controlId="search" label="Buscar">
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
+
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Nombre Categoria</th>
                 <th>Descripcion</th>
-            
+               
               </tr>
             </thead>
-            <tbody>
-              {categorias.map((categorias) => (
+            <tbody>   
+              {filteredCategorias.map((categorias) => (
                 <tr key={categorias.id_Categoria}>
                   <td>{categorias.id_Categoria}</td>
                   <td>{categorias.nombre_C}</td>
                   <td>{categorias.descripcion}</td>
-                  <td>
-                    <Button variant="primary" onClick={() => openModal(categorias)}>Actualizar</Button>
-                    <Button variant="danger" onClick={() => handleDelete(categorias.id_Categoria)}>Eliminar</Button>
-                  </td>
+                  <td>    
+                  <Button variant="primary" onClick={() => openModal(categorias)}><FaRegPenToSquare/></Button>
+                      <Button variant="danger" onClick={() => handleDelete(categorias.id_Categoria)}><FaTrashCanArrowUp/></Button>
+                    </td>
                 </tr>
               ))}
             </tbody>
@@ -127,16 +169,16 @@ function ListaCategoria({rol}) {
 
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Actualizar categorias</Modal.Title>
+          <Modal.Title>Actualizar Marcas</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className="mt-3">
+          <Card className="espaciado">
             <Card.Body>
               <Card.Title>Categorias</Card.Title>
               <Form className="mt-3">
                 <Row className="g-3">
 
-                  <Col sm="6" md="6" lg="6">
+                <Col sm="6" md="6" lg="6">
                     <FloatingLabel controlId="nombre_C" label="Nombre Marca">
                       <Form.Control
                         type="text"
@@ -180,4 +222,4 @@ function ListaCategoria({rol}) {
   );
 }
 
-export default ListaCategoria;
+export default ListaDescuento;

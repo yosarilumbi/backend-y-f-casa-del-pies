@@ -12,6 +12,7 @@ function ListaUsuario({rol}) {
   const [formData, setFormData] = useState({
     nombre_Usuario: '',
     contrasena: '',
+    rol: '',
   });
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,10 +28,12 @@ function ListaUsuario({rol}) {
       // Convierte los valores de los campos a minúsculas para realizar una búsqueda insensible a mayúsculas y minúsculas
       const nombre_Usuario = usuario.nombre_Usuario.toString().toLowerCase();
       const contrasena = usuario.contrasena.toString().toLowerCase();
+      const rol = usuario.rol.toString().toLowerCase();
      
       // Verifica si la cadena de búsqueda se encuentra en algún campo
       return (
         nombre_Usuario.includes(searchQuery) ||
+        contrasena.includes(searchQuery) ||
         contrasena.includes(searchQuery) 
         
       );
@@ -48,6 +51,7 @@ function ListaUsuario({rol}) {
     setFormData({
         nombre_Usuario:usuario.nombre_Usuario,
         contrasena:usuario.contrasena,
+        rol:usuario.rol,
     });
     setShowModal(true);
   };
@@ -111,7 +115,7 @@ function ListaUsuario({rol}) {
     <div>
       <Header rol={ rol}/>
 
-      <Card className="m-3">
+      <Card className="espaciado">
         <Card.Body>
           <Card.Title className="mb-3">Listado de Usuarios</Card.Title>
 
@@ -135,6 +139,7 @@ function ListaUsuario({rol}) {
                 <th>ID</th>
                 <th>Nombre Usuario</th>
                 <th>Contraseña</th>
+                <th>Rol</th>
               </tr>
             </thead>
             <tbody>   

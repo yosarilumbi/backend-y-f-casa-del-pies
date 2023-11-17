@@ -64,7 +64,7 @@ function Vendedor({userRol}) {
       <Header rol={userRol} />
       
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registrar Vendedor</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
@@ -76,7 +76,7 @@ function Vendedor({userRol}) {
                       type="text"
                       placeholder="Ingrese su direccion"
                       value={direccion}
-                      onChange={(e) => setDireccion(e.target.value)}
+                      onChange={(e) => setDireccion(e.target.value.replace(/\d/g,''))}
                     />
                   </FloatingLabel>
                 </Col>
@@ -98,7 +98,7 @@ function Vendedor({userRol}) {
                       type="text" 
                       placeholder="Ingre su nombre"
                       value={nombre}
-                      onChange={(e) => setNombre(e.target.value)} 
+                      onChange={(e) => setNombre(e.target.value.replace(/\d/g,''))} 
                     />
                   </FloatingLabel>
                 </Col>
@@ -109,7 +109,7 @@ function Vendedor({userRol}) {
                       type="text" 
                       placeholder="Ingrese su apellido"
                       value={apellido}
-                      onChange={(e) => setApellido(e.target.value)} 
+                      onChange={(e) => setApellido(e.target.value.replace(/\d/g,''))} 
                     />
                   </FloatingLabel>
                 </Col>

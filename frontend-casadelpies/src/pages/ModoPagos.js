@@ -49,7 +49,7 @@ function ModoPagos({rol}) {
       <Header rol={ rol}/>
       
       <Container>
-        <Card className="mt-3">
+        <Card className="espaciado">
           <Card.Body>
             <Card.Title>Registrar Modo De Pagos</Card.Title>
             <Form className="mt-3" onSubmit={handleSubmit}>
