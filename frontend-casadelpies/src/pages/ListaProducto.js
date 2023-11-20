@@ -115,9 +115,9 @@ function ListaProducto({rol}) {
     <div>
       <Header rol={ rol}/>
 
-      <Card className="espaciado" responsive>
+      <Card className="espaciado">
         <Card.Body>
-          <Card.Title className="mb-3" responsive>Listado de productos</Card.Title >
+          <Card.Title className="mb-3">Listado de productos</Card.Title >
           <Table striped bordered hover responsive>
             <thead>
               <tr>
@@ -214,7 +214,7 @@ function ListaProducto({rol}) {
                     </FloatingLabel>
                   </Col>
                   <Col sm="12" md="6" lg="6">
-                    <FloatingLabel controlId="precio" label="Precio">
+                    <FloatingLabel controlId="precio" label="PrecioC$">
                       <Form.Control
                         type="text"
                         placeholder="Ingrese el precio"

@@ -95,6 +95,10 @@ function Header({ rol }) {
                     <NavDropdown.Item>
                       <Link to="/ListaProducto" className="link-unstyled">Listar Producto</Link>
                     </NavDropdown.Item>
+
+                    <NavDropdown.Item>
+                      <Link to="/Estadisticas" className="link-unstyled">Estadística</Link>
+                    </NavDropdown.Item>
                   </NavDropdown>
 
                   <NavDropdown title="Marcas" id="marcas">
@@ -105,6 +109,11 @@ function Header({ rol }) {
                     <NavDropdown.Item>
                       <Link to="/ListaMarcas" className="link-unstyled">Listar Marcas</Link>
                     </NavDropdown.Item>
+
+                    <NavDropdown.Item>
+                      <Link to="/EstadisticasMarcas" className="link-unstyled">Estadística Marcas</Link>
+                    </NavDropdown.Item>
+
                   </NavDropdown>
 
                   <NavDropdown title="Categorias" id="categorias">
@@ -127,11 +136,6 @@ function Header({ rol }) {
                     <NavDropdown.Item>
                       <Link to="/listaDescuento" className="link-unstyled">Listar Descuentos</Link>
                     </NavDropdown.Item>
-
-                    <Nav.Link>
-                    <Link to="/estadisticas" className="link-unstyled">Estadísticas</Link>
-                  </Nav.Link>
-
                   </NavDropdown>
 
                   <Nav.Link>
@@ -232,6 +236,10 @@ function Header({ rol }) {
                   <NavDropdown.Item>
                     <Link to="/listaProducto" className="link-unstyled">Listar Producto</Link>
                   </NavDropdown.Item>
+
+                  <Nav.Link>
+                    <Link to="/Estadisticas" className="link-unstyled">Estadisticas</Link>
+                  </Nav.Link>
                 </NavDropdown>
 
                 <NavDropdown title="Marcas" id="marcas">
@@ -242,6 +250,11 @@ function Header({ rol }) {
                   <NavDropdown.Item>
                     <Link to="/ListaMarcas" className="link-unstyled">Listar Marcas</Link>
                   </NavDropdown.Item>
+
+                  <Nav.Link>
+                    <Link to="/EstadisticasMarcas" className="link-unstyled">Estadísticas Marca</Link>
+                  </Nav.Link>
+
                 </NavDropdown>
 
                 <NavDropdown title="Categorias" id="categorias">
@@ -263,10 +276,6 @@ function Header({ rol }) {
                   <NavDropdown.Item>
                     <Link to="/listaDescuentos" className="link-unstyled">Listar Descuentos</Link>
                   </NavDropdown.Item>
-
-                  <Nav.Link>
-                    <Link to="/estadisticas" className="link-unstyled">Estadísticas</Link>
-                  </Nav.Link>
 
                 </NavDropdown>
 

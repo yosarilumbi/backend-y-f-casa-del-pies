@@ -51,7 +51,7 @@ function Vendedor({userRol}) {
         setNombreUsuario('');
         setContrasena('');
       } else {
-        alert('Error al registrar el vendedor');
+        alert('Asegurese que ningun campo este vacio');
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);

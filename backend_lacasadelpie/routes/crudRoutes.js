@@ -1209,13 +1209,12 @@ db.query(sql, (err, result) => {
 
 
  // Ruta para obtener datos de ambas tablas usuario y vendedor
- router.get('/readUsuarioyVendedor', (req, res) => {
-
-const router = express.Router();
-
+ 
 router.get('/readUsuarioyVendedor', (req, res) => {
-  const sql = 'SELECT U.*, V.* FROM Vendedor INNER JOIN Usuario U ON V.id_Usuario = U.id_Usuario';
-
+  const sql = `
+  SELECT C.*, U.rol FROM Vendedor C 
+  INNER JOIN Usuario U ON C.id_Usuario = U.id_Usuario
+  `;
   db.query(sql, (err, results) => {
     if (err) {
       console.error('Error al obtener los datos de Vendedor y Usuario:', err);
@@ -1225,11 +1224,12 @@ router.get('/readUsuarioyVendedor', (req, res) => {
     }
   });
 });
-});
+
+
+
 
 router.put('/updateVendedor', (req, res) => {
   const {
-    id_Vendedor,
     direccion,
     telefono,
     nombre,
@@ -1249,10 +1249,10 @@ router.put('/updateVendedor', (req, res) => {
       return res.status(500).json({ error: 'Error al actualizar el registro en Usuario' });
     }
 
-    const sqlVendedor = 'UPDATE Vendedor SET id_Vendedor = ?, direccion = ?, telefono = ?, nombre = ?, apellido = ? WHERE id_Vendedor = ?';
-    const valuesVendedor = [id_Vendedor, direccion, telefono, nombre, apellido, id_Vendedor];
+    const sqlvendedor = 'UPDATE Vendedor SET id_Vendedor = ?, direccion = ?, telefono = ?, nombre = ?, apellido = ? WHERE id_Vendedor = ?';
+    const valuesvendedor = [direccion, telefono, nombre, apellido, id_Vendedor];
 
-    db.query(sqlVendedor, valuesVendedor, (err, resultVendedor) => {
+    db.query(sqlvendedor, valuesvendedor, (err, resultvendedor) => {
       if (err) {
         console.error('Error al actualizar el registro en Vendedor:', err);
         return res.status(500).json({ error: 'Error al actualizar el registro en Vendedor' });

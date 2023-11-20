@@ -23,6 +23,7 @@ import ListaVendedor from './pages/ListaVendedor';
 import Login from './pages/Login';
 import Galeria from './pages/Galeria';
 import Estadisticas from './pages/Estadisticas';
+import EstadisticasMarcas from './pages/EstadisticaMarcas';
 
 
 function App() {
@@ -54,7 +55,8 @@ function App() {
         <Route path="/vendedor" element={<Vendedor userRol={userRol}/>} />
         <Route path="/ListaVendedor" element={<ListaVendedor rol={userRol}/>} />
         <Route path="/galeria" element={<Galeria rol={userRol}/>} />
-        <Route path="/estadisticas" element={<Estadisticas rol={userRol} />} />
+        <Route path="/Estadisticas" element={<Estadisticas rol={userRol} />} />
+        <Route path="/EstadisticasMarcas" element={<EstadisticasMarcas rol={userRol} />} />
   
       </Routes>
     </Router>

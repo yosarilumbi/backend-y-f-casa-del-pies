@@ -78,7 +78,7 @@ function Descuento({rol}) {
                       type="text"
                       placeholder="Ingrese las condiciones"
                       value={condiciones}
-                      onChange={(e) => setCondiciones(e.target.value.replace(/\d/g,''))}
+                      onChange={(e) => setCondiciones(e.target.value)}
                     />
                   </FloatingLabel>
                 </Col>

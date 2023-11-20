@@ -154,7 +154,7 @@ function Producto({rol}) {
                 </Col>
 
                 <Col sm="12" md="6" lg="6">
-                  <FloatingLabel controlId="precio" label="Precio">
+                  <FloatingLabel controlId="precio" label="PrecioC$">
                     <Form.Control
                       type="number"
                       placeholder="Ingrese el precio del producto"

@@ -52,7 +52,7 @@ function Galeria({rol}) {
       
       <Container className="margen-contenedor">
 
-      <Row className="mb-3">
+      <Row className="espaciado">
         <Col sm="6" md="6" lg="4">
           <FloatingLabel controlId="search" label="Buscar">
             <Form.Control
@@ -76,7 +76,7 @@ function Galeria({rol}) {
                   {producto.descripcion}
                 </Card.Text>
                 <div>
-                  <Badge bg="success">Precio: {producto.precio}</Badge>
+                  <Badge bg="success">PrecioC$: {producto.precio}</Badge>
                 </div>
               </Card.Body>
               <Card.Body>

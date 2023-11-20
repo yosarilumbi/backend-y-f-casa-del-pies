@@ -16,6 +16,37 @@ function ListaCliente({ rol }) {
     id_Usuario: '',
   });
 
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredclientes = clientes.filter((clientes) => { 
+    
+    if (clientes && clientes.cedula && clientes.nombre && clientes.apellido && clientes.historialdecompras) {
+      // Convierte los valores de los campos a minúsculas para realizar una búsqueda insensible a mayúsculas y minúsculas
+      const cedula = clientes.cedula.toString().toLowerCase();
+      const nombre = clientes.nombre.toString().toLowerCase();
+      const apellido = clientes.apellido.toString().toLowerCase();
+      const historialdecompras = clientes.historialdecompras.toString().toLowerCase();
+    
+  
+      // Verifica si la cadena de búsqueda se encuentra en algún campo
+      return (
+        cedula.includes(searchQuery) ||
+        nombre.includes(searchQuery) ||
+        apellido.includes(searchQuery)||
+        historialdecompras.includes(searchQuery) 
+      );
+    }
+    return false; // Si algún valor está indefinido, no incluirlo en los resultados
+  });
+  
+
+
+
   const openModal = (cliente) => {
     setSelectedCliente(cliente);
 
@@ -40,7 +71,7 @@ function ListaCliente({ rol }) {
   };
 
   const handleUpdate = () => {
-    fetch(`http://localhost:5000/crud/updateClientesr/${selectedCliente.id_Cliente}`, {
+    fetch(`http://localhost:5000/crud/updateClientes/${selectedCliente.id_Cliente}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -89,6 +120,20 @@ function ListaCliente({ rol }) {
       <Card className="m-3">
         <Card.Body>
           <Card.Title className="mb-3">Listado de Cliente</Card.Title>
+
+          <Row className="mb-3">
+       <Col>
+    <FloatingLabel controlId="search" label="Buscar">
+      <Form.Control
+        type="text"
+        placeholder="Buscar"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+      </FloatingLabel>
+       </Col>
+       </Row>
+
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -102,7 +147,7 @@ function ListaCliente({ rol }) {
               </tr>
             </thead>
             <tbody>
-              {clientes.map((cliente) => (
+              {filteredclientes.map((cliente) => (
                 <tr key={cliente.id_Cliente}>
                   <td>{cliente.id_Cliente}</td>
                   <td>{cliente.cedula}</td>
