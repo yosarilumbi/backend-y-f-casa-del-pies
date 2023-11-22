@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Cliente from './pages/Cliente';
@@ -24,39 +24,52 @@ import Login from './pages/Login';
 import Galeria from './pages/Galeria';
 import Estadisticas from './pages/Estadisticas';
 import EstadisticasMarcas from './pages/EstadisticaMarcas';
+import SinAcceso from './pages/SinAcceso';
+
 
 
 function App() {
 
-  const [userRol, setUserRol] = useState('');
+  const storedRol = localStorage.getItem('userRol');
+
+  //const [userRol, setUserRol] = useState('');
+  const [userRol, setUserRol] = useState(storedRol || '');
+
+  // Guardar el rol del usuario en localStorage cada vez que cambie
+  useEffect(() => {
+    localStorage.setItem('userRol', userRol);
+  }, [userRol]);
+
+ 
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login rol={userRol} setRol={setUserRol} />} />
-        <Route path="/home" element={<Home rol={userRol} />} />
-        <Route path="/about" element={<About rol={userRol} />} />
-        <Route path="/Cliente" element={<Cliente rol={userRol}/>} />
-        <Route path="/ListaCliente" element={<ListaCliente rol={userRol} />} />
-        <Route path="/Marcas" element={<Marcas rol={userRol} />} />
-        <Route path="/ListaMarcas" element={<ListaMarcas rol={userRol} />} />
-        <Route path="/Categorias" element={<Categorias rol={userRol} />} />
-        <Route path="/ListaCategoria" element={<ListaCategoria rol={userRol} />} />
-        <Route path="/ModoPagos" element={<ModoPagos rol={userRol} />} />
-        <Route path="/ListaModoPago" element={<ListaModoPago rol={userRol} />} />
-        <Route path="/Producto" element={<Producto rol={userRol}/>} />
-        <Route path="/ListaProducto" element={<ListaProducto rol={userRol}/>} />
-        <Route path="/descuento" element={<Descuento rol={userRol}/>} />
-        <Route path="/listaDescuento" element={<ListaDescuento rol={userRol}/>} />
-        <Route path="/Venta" element={<Venta rol={userRol}/>} />
-        <Route path="/ListaVenta" element={<ListaVenta rol={userRol}/>} />
-        <Route path="/Usuario" element={<Usuario rol={userRol}/>} />
-        <Route path="/ListaUsuario" element={<ListaUsuario rol={userRol}/>} />
-        <Route path="/vendedor" element={<Vendedor userRol={userRol}/>} />
-        <Route path="/ListaVendedor" element={<ListaVendedor rol={userRol}/>} />
-        <Route path="/galeria" element={<Galeria rol={userRol}/>} />
-        <Route path="/Estadisticas" element={<Estadisticas rol={userRol} />} />
-        <Route path="/EstadisticasMarcas" element={<EstadisticasMarcas rol={userRol} />} />
+        <Route path="/home" element={userRol ? <Home rol={userRol} /> : <Navigate to="/sinacceso" />} />
+        <Route path="/about" element={userRol ? <About rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/Cliente" element={userRol ? <Cliente rol={userRol}/> : <Navigate to="sinacceso"/>} />
+        <Route path="/ListaCliente" element={userRol ? <ListaCliente rol={userRol}/> : <Navigate to="sinacceso" />} />
+        <Route path="/Marcas" element={userRol ? <Marcas rol={userRol}/> : <Navigate to="sinacceso" />} />
+        <Route path="/ListaMarcas" element={userRol ?<ListaMarcas rol={userRol}/> :<Navigate to="sinacceso" />} />
+        <Route path="/Categorias" element={userRol ? <Categorias rol={userRol}/> : <Navigate to="sinacceso" />} />
+        <Route path="/ListaCategoria" element={userRol ? <ListaCategoria rol={userRol} /> : <Navigate to="sinacceso" />} />
+        <Route path="/ModoPagos" element={userRol ? <ModoPagos rol={userRol} /> : <Navigate to="sinacceso" />} />
+        <Route path="/ListaModoPago" element={userRol ? <ListaModoPago rol={userRol}/> : <Navigate to="sinacceso"/>} />
+        <Route path="/Producto" element={userRol ? <Producto rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/ListaProducto" element={userRol ? <ListaProducto rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/descuento" element={userRol ? <Descuento rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/listaDescuento" element={userRol ? <ListaDescuento rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/Venta" element={userRol ? <Venta rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/ListaVenta" element={userRol ? <ListaVenta rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/Usuario" element={userRol ? <Usuario rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/ListaUsuario" element={userRol ? <ListaUsuario rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/vendedor" element={userRol ? <Vendedor userRol={userRol}/> : <Navigate to="sinacceso"/>} />
+        <Route path="/ListaVendedor" element={userRol ? <ListaVendedor rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/galeria" element={userRol ? <Galeria rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/Estadisticas" element={userRol ? <Estadisticas rol={userRol} /> : <Navigate to="sinacceso"/>} />
+        <Route path="/EstadisticasMarcas" element={userRol ? <EstadisticasMarcas rol={userRol} /> : <Navigate to="sinacceso" />} />
+        <Route path="/sinacceso" element={<SinAcceso />} />
   
       </Routes>
     </Router>

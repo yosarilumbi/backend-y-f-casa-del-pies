@@ -2,12 +2,22 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Offcanvas, Button, NavDropdown, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaRightFromBracket } from 'react-icons/fa6';
+
+
 
 function Header({ rol }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+
+  // Función para cerrar sesión
+  const cerrarSesion = () => {
+    // Eliminar el rol del localStorage al cerrar sesión
+    localStorage.removeItem('userRol');
   };
 
   return (
@@ -141,7 +151,12 @@ function Header({ rol }) {
                   <Nav.Link>
                     <Link to="/galeria" className="link-unstyled">Galeria</Link>
                   </Nav.Link>
+                    
 
+                    
+                  <Nav.Link>
+                    <Link to="/" onClick={cerrarSesion} className="link-unstyled"><FaRightFromBracket /></Link>
+                  </Nav.Link>
 
 
                 </Nav>
@@ -279,6 +294,12 @@ function Header({ rol }) {
 
                 </NavDropdown>
 
+                
+                <Nav.Link>
+                  <Link to="/" onClick={cerrarSesion} className="link-unstyled"><FaRightFromBracket /></Link>
+                </Nav.Link>
+
+
               </Nav>
             </Offcanvas.Body>
           </Offcanvas>
@@ -303,13 +324,14 @@ function Header({ rol }) {
                   <NavDropdown.Item>
                     <Link to="/Galeria" className="link-unstyled">Galeria</Link>
                   </NavDropdown.Item>
-         
-
-               
-
-
               
                   </NavDropdown>
+
+                  
+                <Nav.Link>
+                  <Link to="/" onClick={cerrarSesion} className="link-unstyled"><FaRightFromBracket /></Link>
+                </Nav.Link>
+
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -362,6 +384,11 @@ function Header({ rol }) {
                     <Link to="/ListaModoPago" className="link-unstyled">Listar ModoPagos</Link>
                   </NavDropdown.Item>
                 </NavDropdown>
+
+              
+              <Nav.Link>
+                <Link to="/" onClick={cerrarSesion} className="link-unstyled"><FaRightFromBracket /></Link>
+              </Nav.Link>
 
               
       
